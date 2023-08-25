@@ -75,7 +75,7 @@ class _TitleWidgetState extends State<TitleWidget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      'Sober Guardian',
+                      'Sober Guardian Flutter',
                       style: TextStyle(
                             fontFamily: 'Poppins',
                             color: Colors.white,
