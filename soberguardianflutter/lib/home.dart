@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:soberguardian/services/auth.dart';
+import 'package:soberguardian/main.dart';
 import 'emergency.dart';
 import 'loading.dart';
 
@@ -505,6 +507,52 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ),
                       ),
                     ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(24, 12, 0, 0),
+                  child: ButtonTheme(
+                    minWidth: 160,
+                    height: 100,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoadingWidget()));
+                        Auth().logout().then((value) {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => TitleWidget()));
+                        });
+
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 255, 7, 7)),
+                        padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0)
+                          ),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.logout,
+                            size: 44,
+                          ),
+                          Container(
+                            height: 12,
+                            width: 135,
+                          ),
+                          Text(
+                            'Log Out',
+                            style: TextStyle(
+                              fontFamily: 'Outfit',
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ]
+                      ),  
+                    ),
                   ),
                 ),
               ],

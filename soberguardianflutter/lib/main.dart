@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'home.dart';
+import 'package:soberguardian/auth_checker.dart';
+// import 'home.dart';
 import 'login.dart';
 //import 'package:google_fonts/google_fonts.dart';
 // import 'package:provider/provider.dart';
@@ -20,7 +21,8 @@ class SoberGuardianApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: TitleWidget(),
+      debugShowCheckedModeBanner: false,
+      home: AuthChecker(),
     );
   }
 }
