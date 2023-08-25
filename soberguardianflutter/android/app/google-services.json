@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "488132257166",
+    "project_id": "soberguardian-29ec3",
+    "storage_bucket": "soberguardian-29ec3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488132257166:android:23f6cfa03941db6b4ff0df",
+        "android_client_info": {
+          "package_name": "com.aaron.soberguardian"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488132257166-tocpj1bi63glfm8mimfbci7uogiq4g37.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF74Q8Vdkj1QSDq9taUG3I2vYXpobzGxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488132257166-tocpj1bi63glfm8mimfbci7uogiq4g37.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "488132257166-arsen9m8bf0kjk3m2a7apo25panobama.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aaron.soberguardian"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488132257166:android:d79581419ddcf9524ff0df",
+        "android_client_info": {
+          "package_name": "com.soberguardian.aaron"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488132257166-tocpj1bi63glfm8mimfbci7uogiq4g37.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCF74Q8Vdkj1QSDq9taUG3I2vYXpobzGxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488132257166-tocpj1bi63glfm8mimfbci7uogiq4g37.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "488132257166-arsen9m8bf0kjk3m2a7apo25panobama.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aaron.soberguardian"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
