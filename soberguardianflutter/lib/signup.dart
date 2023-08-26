@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'home.dart';
+import 'package:soberguardian/auth_checker.dart';
+import 'package:soberguardian/services/auth.dart';
 //import 'package:google_fonts/google_fonts.dart';
 // import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ class SignUpWidgetState extends State<SignUpWidget> {
   //late TitleModel _model;
   late TextEditingController usernameController;
   late TextEditingController passwordController;
+  late TextEditingController confirmController;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -27,6 +29,7 @@ class SignUpWidgetState extends State<SignUpWidget> {
     super.initState();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
+    confirmController = TextEditingController();
     //_model = createModel(context, () => TitleModel());
   }
 
@@ -35,6 +38,7 @@ class SignUpWidgetState extends State<SignUpWidget> {
     //_model.dispose();
     usernameController.dispose();
     passwordController.dispose();
+    confirmController.dispose();
     super.dispose();
   }
 
@@ -61,6 +65,7 @@ class SignUpWidgetState extends State<SignUpWidget> {
                     labelText: 'Email'
                   ),
                 ),
+                SizedBox(height: 25,),
                 Text('Password'),
                 TextField(
                   controller: passwordController,
@@ -70,37 +75,23 @@ class SignUpWidgetState extends State<SignUpWidget> {
                   ),
                   obscureText: true,
                 ),
+                SizedBox(height: 25,),
+                Text('Confirm Password'),
+                TextField(
+                  controller: confirmController,
+                  decoration: InputDecoration (
+                    border: OutlineInputBorder(),
+                    labelText: 'Confirm Password'
+                  ),
+                  obscureText: true,
+                ),
+                SizedBox(height: 25,),
                 ElevatedButton(
-                  onPressed: () async {
-                    try{
-                      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                        email: usernameController.text,
-                        password: passwordController.text,
-                      );
-                      // Updating database
-                      final ref =  FirebaseDatabase.instance.ref();
-                      await ref.update({
-                        FirebaseAuth.instance.currentUser?.uid as String: {
-                          'pt' : {
-                            '1' : '', 
-                            '2' : '',
-                            '3' : '',
-                            '4' : '',
-                            '5' : '',
-                          },
-                          'contacts' : {
-                            'caretaker' : '',
-                            'family' : '',
-                            'friends' : '',
-                            'other' : '',
-                          },
-                        }
-                      });
-                      //Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePageWidget()));
-                    } on FirebaseAuthException catch(e){
-                      print(e.code);
-                    }
-                  }, 
+                  onPressed: (passwordController.text == confirmController.text) ? () async {
+                    Auth().register(usernameController.text, passwordController.text).then((result) {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AuthChecker()));
+                    });
+                  } : null, 
                   child: Text('Create Account')
                 )
               ],

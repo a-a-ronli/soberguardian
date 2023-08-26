@@ -61,6 +61,7 @@ class LoginWidgetState extends State<LoginWidget> {
                     labelText: 'Email'
                   ),
                 ),
+                SizedBox(height: 25,),
                 Text('Password'),
                 TextField(
                   controller: passwordController,
@@ -74,7 +75,7 @@ class LoginWidgetState extends State<LoginWidget> {
                   onPressed: (){
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpWidget()));
                   },
-                  child: Text('Sign Up'),
+                  child: const Text('Sign Up', style: TextStyle(color: Colors.white),),
                 ),
                 ElevatedButton(
                   onPressed: () async {

@@ -53,8 +53,8 @@ class _SoberWidgetState extends State<SoberWidget> {
                       color:Colors.lightGreen,
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: Image.network(
-                          'https://drive.google.com/uc?id=1mnsffZlnvaO1VQ8e4Eg4-f1Fz-lG0nER',
+                        image: Image.asset(
+                          'assets/images/gdrink.png',
                         ).image,
                       ),
                     ),

@@ -38,6 +38,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var dt = DateTime.now();
+
     return GestureDetector(
       //onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
@@ -52,13 +54,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               child: Container(
                 width: double.infinity,
                 height: 400,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.white,
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: CachedNetworkImageProvider(
-                      'https://drive.google.com/file/d/1QLDQ8ygEyJuAOVbkklfQpkvNnw_Q0Ps2/view?usp=sharing',
-                    ),
+                    image: Image.asset(
+                        'assets/images/drinks.png',
+                      ).image,
                   ),
                 ),
                 child: Container(
@@ -68,8 +70,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     color: const Color(0x59000000),
                     image: DecorationImage(
                       fit: BoxFit.scaleDown,
-                      image: Image.network(
-                        'https://drive.google.com/uc?id=1QLDQ8ygEyJuAOVbkklfQpkvNnw_Q0Ps2',
+                      image: Image.asset(
+                        'assets/images/drinks.png',
                       ).image,
                     ),
                   ),
@@ -178,7 +180,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     color: Colors.white,
                                     size: 32,
                                   ),
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 0, 24, 0),
                                     child: Column(
@@ -207,7 +209,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   8, 0, 0, 0),
                                           child: Text(
-                                            '5:32',
+                                            '${(dt.hour > 12) ? dt.hour - 12 : (dt.hour != 0) ? dt.hour : 12}:${dt.minute}',
                                             style: TextStyle(
                                                   fontFamily: 'Outfit',
                                                   color: Colors.white,

@@ -56,8 +56,8 @@ class _DrunkWidgetState extends State<DrunkWidget> {
                     color: Colors.red,
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: Image.network(
-                        'https://drive.google.com/uc?id=141R93d5IYGPNWe8xCKXPcW1AOMdsxOy3',
+                      image: Image.asset(
+                        'assets/images/pdrinks.png',
                       ).image,
                     ),
                   ),
