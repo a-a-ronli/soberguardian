@@ -1,10 +1,13 @@
 
 import 'dart:ui';
+import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:soberguardian/services/auth.dart';
 import 'package:soberguardian/main.dart';
+import 'package:soberguardian/shared/singleton.dart';
 import 'emergency.dart';
 import 'loading.dart';
 
@@ -22,11 +25,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   //late HomePageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  List<DataSnapshot> tests = [];
+  final _singleton = Singleton();
 
   @override
   void initState() {
     super.initState();
    // _model = createModel(context, () => HomePageModel());
+    Timer.periodic(const Duration(seconds: 1), (timer){
+      if (mounted) setState(() {});
+    });
   }
 
   @override
@@ -38,6 +46,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (_singleton.userData != null) {
+      print(_singleton.userData!.child("pt").value);
+      for (final child in _singleton.userData!.child("pt").children) {
+        tests.add(child);
+        print(child);
+      }
+    }
+    
+
     var dt = DateTime.now();
 
     return GestureDetector(
@@ -89,7 +107,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             Align(
                               alignment: AlignmentDirectional(-1, 0),
                               child: AutoSizeText(
-                                'Welcome',
+                                '',
                                 style: TextStyle(
                                       fontFamily: 'Poppins',
                                       color: Colors.white,
@@ -209,7 +227,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   8, 0, 0, 0),
                                           child: Text(
-                                            '${(dt.hour > 12) ? dt.hour - 12 : (dt.hour != 0) ? dt.hour : 12}:${dt.minute}',
+                                            '${(dt.hour > 12) ? dt.hour - 12 : (dt.hour != 0) ? dt.hour : 12}:${(dt.minute) < 10 ? "0${dt.minute}" : dt.minute}',
                                             style: TextStyle(
                                                   fontFamily: 'Outfit',
                                                   color: Colors.white,
@@ -260,149 +278,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 8, 8),
-                          child: Container(
-                            width: 160,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(
-                                  blurRadius: 3,
-                                  color: Color(0x33000000),
-                                  offset: Offset(0, 1),
-                                )
-                              ],
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '8:00 PM ',
-                                    style: TextStyle(
-                                          fontFamily: 'Outfit',
-                                          color: Color(0xFF14181B),
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                  ),
-                                  Text(
-                                    'Confidence: 90%',
-                                    style: TextStyle(
-                                          fontFamily: 'Outfit',
-                                          color: Color(0xFF57636C),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 8, 8),
-                          child: Container(
-                            width: 160,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(
-                                  blurRadius: 3,
-                                  color: Color(0x33000000),
-                                  offset: Offset(0, 1),
-                                )
-                              ],
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '2:30 AM ',
-                                    style: TextStyle(
-                                          fontFamily: 'Outfit',
-                                          color: Color(0xFF14181B),
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                  ),
-                                  Text(
-                                    'Confidence: 91%',
-                                    style: TextStyle(
-                                          fontFamily: 'Outfit',
-                                          color: Color(0xFF57636C),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 8, 8),
-                          child: Container(
-                            width: 160,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(
-                                  blurRadius: 3,
-                                  color: Color(0x33000000),
-                                  offset: Offset(0, 1),
-                                )
-                              ],
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '12:30 AM',
-                                    style: TextStyle(
-                                          fontFamily: 'Outfit',
-                                          color: Color(0xFF14181B),
-                                          fontSize: 28,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                  ),
-                                  Text(
-                                    'Confidence: 93%',
-                                    style:TextStyle(
-                                          fontFamily: 'Outfit',
-                                          color: Color(0xFF57636C),
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      children: tests.map((test) => TestEntry(test: test)).toList(),
                     ),
                   ),
                 ),
@@ -563,5 +439,62 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         ),
       ),
     );
+  }
+}
+
+class TestEntry extends StatelessWidget {
+  final DataSnapshot test;
+  const TestEntry({super.key, required this.test});
+
+  @override
+  Widget build(BuildContext context) {
+    print("TEST: ${test.child("confidence").value}");
+    return Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 8, 8),
+            child: Container(
+              width: 160,
+              height: 100,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 3,
+                    color: Color(0x33000000),
+                    offset: Offset(0, 1),
+                  )
+                ],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Padding(
+                padding:
+                    EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '12:30 AM',
+                      style: TextStyle(
+                            fontFamily: 'Outfit',
+                            color: Color(0xFF14181B),
+                            fontSize: 28,
+                            fontWeight: FontWeight.normal,
+                          ),
+                    ),
+                    Text(
+                      'Confidence: 93%',
+                      style:TextStyle(
+                            fontFamily: 'Outfit',
+                            color: Color(0xFF57636C),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
   }
 }

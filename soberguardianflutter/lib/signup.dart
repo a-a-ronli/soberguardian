@@ -89,7 +89,7 @@ class SignUpWidgetState extends State<SignUpWidget> {
                 ElevatedButton(
                   onPressed: (passwordController.text == confirmController.text) ? () async {
                     Auth().register(usernameController.text, passwordController.text).then((result) {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AuthChecker()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => AuthChecker()));
                     });
                   } : null, 
                   child: Text('Create Account')
