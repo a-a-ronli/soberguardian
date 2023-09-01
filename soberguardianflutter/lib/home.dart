@@ -1,13 +1,17 @@
 
+import 'dart:convert';
 import 'dart:ui';
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:soberguardian/services/auth.dart';
 import 'package:soberguardian/main.dart';
 import 'package:soberguardian/shared/singleton.dart';
+import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
 import 'emergency.dart';
 import 'loading.dart';
 
@@ -25,7 +29,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   //late HomePageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  List<DataSnapshot> tests = [];
+  List<Map<Object?, Object?>> tests = [];
   final _singleton = Singleton();
 
   @override
@@ -44,15 +48,73 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     super.dispose();
   }
 
+  Future<String?> getCity() async {
+    Location location = new Location();
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return null;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return null;
+      }
+    }
+
+    _locationData = await location.getLocation();
+
+    // TODO: Get the city name via API
+    const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';  // Replace with your actual API key
+
+    double lat = _locationData.latitude as double;
+    double lon = _locationData.longitude as double;
+
+    final url =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lon&key=$apiKey';
+
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      if (data["results"] != null && data["results"].length > 0) {
+        for(var result in data["results"]) {
+          if (result["types"].contains("locality")) {
+            for (var component in result["address_components"]) {
+              if (component["types"].contains("locality")) {
+                return component["long_name"];
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
 
     if (_singleton.userData != null) {
-      print(_singleton.userData!.child("pt").value);
-      for (final child in _singleton.userData!.child("pt").children) {
-        tests.add(child);
-        print(child);
+      // print(_singleton.userData!.child("pt").value);
+      if (_singleton.userData!.child("pt").value != null) {
+        tests.clear();
+        for (final child in _singleton.userData!.child("pt").value! as List<dynamic>) {
+          if (child != null) tests.add(child);
+          // print(child);
+        }
       }
+      
     }
     
 
@@ -144,13 +206,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  const Expanded(
+                                  Expanded(
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
+                                        const Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
                                                   8, 0, 0, 4),
@@ -166,18 +228,46 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   8, 0, 0, 0),
                                           child: Text(
-                                            'San Diego',
-                                            style: TextStyle(
+                                            "San Diego",
+                                            style: const TextStyle(
                                                   fontFamily: 'Outfit',
                                                   color: Colors.white,
                                                   fontSize: 34,
                                                   fontWeight: FontWeight.w500,
                                                 ),
-                                          ),
-                                        ),
+                                            ),
+                                          )
+                                        // FutureBuilder<String?>(
+                                        //   future: getCity(),
+                                        //   builder: (BuildContext context, AsyncSnapshot<String?> snapshot)
+                                        //   {
+                                        //     if (snapshot.connectionState == ConnectionState.waiting) {
+                                        //       return const CircularProgressIndicator();
+                                        //     } else if (snapshot.hasError) {
+                                        //       return Text('Error: ${snapshot.error}');
+                                        //     } else if (snapshot.data == null) {
+                                        //       return const Text('???');
+                                        //     } else {
+                                        //       return Padding(
+                                        //       padding:
+                                        //           const EdgeInsetsDirectional.fromSTEB(
+                                        //               8, 0, 0, 0),
+                                        //       child: Text(
+                                        //         "${getCity()}",
+                                        //         style: const TextStyle(
+                                        //               fontFamily: 'Outfit',
+                                        //               color: Colors.white,
+                                        //               fontSize: 34,
+                                        //               fontWeight: FontWeight.w500,
+                                        //             ),
+                                        //         ),
+                                        //       );
+                                        //   }
+                                        //   }
+                                        // ),
                                       ],
                                     ),
                                   ),
@@ -443,12 +533,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 }
 
 class TestEntry extends StatelessWidget {
-  final DataSnapshot test;
+  final Map<Object?, Object?> test;
   const TestEntry({super.key, required this.test});
 
   @override
   Widget build(BuildContext context) {
-    print("TEST: ${test.child("confidence").value}");
+    // print("TEST: ${test["confidence"]}");
+    DateTime parsedDateTime = DateTime.parse(test["time"].toString());
     return Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 8, 8),
             child: Container(
@@ -465,17 +556,17 @@ class TestEntry extends StatelessWidget {
                 ],
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: const Padding(
+              child: Padding(
                 padding:
-                    EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
+                    const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '12:30 AM',
-                      style: TextStyle(
+                      DateFormat('hh:mm a').format(parsedDateTime),
+                      style: const TextStyle(
                             fontFamily: 'Outfit',
                             color: Color(0xFF14181B),
                             fontSize: 28,
@@ -483,10 +574,19 @@ class TestEntry extends StatelessWidget {
                           ),
                     ),
                     Text(
-                      'Confidence: 93%',
-                      style:TextStyle(
+                      'Confidence: ${test["confidence"]}%',
+                      style: const TextStyle(
                             fontFamily: 'Outfit',
                             color: Color(0xFF57636C),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
+                    ),
+                    Text(
+                      '${test["status"]}',
+                      style:TextStyle(
+                            fontFamily: 'Outfit',
+                            color: (test["status"] == "Sober") ? Colors.green : Colors.red,
                             fontSize: 14,
                             fontWeight: FontWeight.normal,
                           ),
