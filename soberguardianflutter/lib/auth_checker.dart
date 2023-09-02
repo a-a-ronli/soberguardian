@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:soberguardian/main.dart';
 import 'package:soberguardian/home.dart';
 import 'package:soberguardian/shared/singleton.dart';
+import 'package:soberguardian/shared/loading.dart';
 
 class AuthChecker extends StatelessWidget {
   AuthChecker({super.key});
@@ -22,8 +23,7 @@ class AuthChecker extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // TODO: replace with proper loading screen
-          return Text("Loading");
+          return const LoadingScreen();
         }
 
         print("Here is the data: ${snapshot.data?.snapshot}");

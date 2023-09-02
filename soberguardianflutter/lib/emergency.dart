@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:soberguardian/shared/singleton.dart';
+import 'package:soberguardian/shared/colors.dart';
+import 'package:soberguardian/add_category.dart';
 
 //import 'notify_model.dart';
 //export 'notify_model.dart';
@@ -15,6 +17,8 @@ class _NotifyWidgetState extends State<NotifyWidget> {
   //late NotifyModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Map<Object?, Object?>> categories = [];
+  final _singleton = Singleton();
 
   @override
   void initState() {
@@ -31,6 +35,18 @@ class _NotifyWidgetState extends State<NotifyWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (_singleton.userData != null) {
+      // print(_singleton.userData!.child("pt").value);
+      if (_singleton.userData!.child("categories").value != null) {
+        categories.clear();
+        for (final child in _singleton.userData!.child("categories").value! as List<dynamic>) {
+          if (child != null) categories.add(child);
+          // print(child);
+        }
+      }
+    }
+
     return GestureDetector(
       //onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
@@ -54,561 +70,72 @@ class _NotifyWidgetState extends State<NotifyWidget> {
         ),
         body: SafeArea(
           top: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Align(
-                alignment: const AlignmentDirectional(0, 0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xff5c4033)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Family',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                      ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xff614051)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 53,
-                            margin: EdgeInsets.fromLTRB(15, 20, 15, 25),
-                            child:
-                              Text(
-                                'Friends',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                       ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xffc4a484)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 73,
-                            margin: EdgeInsets.fromLTRB(5, 20, 5, 25),
-                            child:
-                              Text(
-                                'Caretaker',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xff3991d2)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Police',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                  ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xffd2042d)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Fire Fighter',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                 ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xff60cd41)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Hospital',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xff000000)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Uber',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                  ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 226, 51, 206)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Lift',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                 ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 234, 255, 0)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Driver',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                 ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xff1b4494)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Restaurants',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                  ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xff616161)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Hotels',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                 ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xffd4af36)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Taxi',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                ],
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xff38d2c0)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Bus',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                 ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xff60cd41)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Train',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                  ButtonTheme(
-                        minWidth: 100,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            print('button pressed');
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xff4b39ef)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
-                            ),
-                          ),
-                          child: Container(
-                            height: 43,
-                            alignment: Alignment(0,0),
-                            width: 43,
-                            margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
-                            child:
-                              Text(
-                                'Other',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                          ),  
-                        ),
-                      ),
-                ],
-              ),
-            ],
+          child: GridView.count(
+            primary: false,
+            padding: const EdgeInsets.all(20),
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 3,
+            children: categories.map((category) => EmergencyCategory(category: category)).toList(),
+          )
+        ),
+        floatingActionButton: ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddCategoryScreen()));
+          },
+          child: const Icon(
+            Icons.add
+          )
+        ),
+      ),
+    );
+  }
+}
+
+class EmergencyCategory extends StatelessWidget {
+  final Map<Object?, Object?> category;
+  const EmergencyCategory({super.key, required this.category});
+
+  @override
+  Widget build(BuildContext context) {
+    print(category);
+    return ButtonTheme(
+      minWidth: 100,
+      height: 100,
+      child: ElevatedButton(
+        onPressed: () {
+          print('button pressed');
+        },
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(colors[category["color"]]),
+          padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0)
+            ),
           ),
         ),
+        child: Container(
+          height: 43,
+          alignment: Alignment(0,0),
+          width: 43,
+          margin: EdgeInsets.fromLTRB(20, 20, 20, 25),
+          child:
+            Column(
+              children: [
+                Icon(IconData(int.parse('0x${category["icon"]}'), fontFamily: 'MaterialIcons')),
+                Text(
+                  category["name"].toString(),
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+        ),  
       ),
     );
   }
