@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soberguardian/shared/singleton.dart';
-import 'package:soberguardian/shared/colors.dart';
+import 'package:soberguardian/shared/colors_reference.dart';
 import 'package:soberguardian/add_category.dart';
 
 //import 'notify_model.dart';
@@ -107,7 +107,7 @@ class EmergencyCategory extends StatelessWidget {
           print('button pressed');
         },
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(colors[category["color"]]),
+          backgroundColor: MaterialStateProperty.all(nameToColors[category["color"]]),
           padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
@@ -124,13 +124,15 @@ class EmergencyCategory extends StatelessWidget {
             Column(
               children: [
                 Icon(IconData(int.parse('0x${category["icon"]}'), fontFamily: 'MaterialIcons')),
-                Text(
-                  category["name"].toString(),
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
+                SizedBox(
+                  child: Text(
+                    category["name"].toString(),
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ),
               ],

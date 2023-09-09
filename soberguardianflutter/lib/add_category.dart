@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:soberguardian/services/auth.dart';
+import 'package:soberguardian/shared/singleton.dart';
+
 import 'package:soberguardian/icons.dart';
 import 'package:soberguardian/colors.dart';
+import 'package:soberguardian/shared/colors_reference.dart';
 
 class AddCategoryScreen extends StatefulWidget {
   const AddCategoryScreen({super.key});
@@ -11,6 +16,10 @@ class AddCategoryScreen extends StatefulWidget {
 
 class _AddCategoryScreenState extends State<AddCategoryScreen> {
     late TextEditingController categoryNameController;
+    IconData iconSelection = supportedIcons[0].last;
+    Color colorSelection = supportedColors[0];
+
+    final Singleton _singleton = Singleton();
 
     @override
     void initState() {
@@ -45,11 +54,33 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                           ),
                       ),
                     ),
-                    Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 100,
-                        color: Colors.grey,
-                        child: Row(children: [],)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 100,
+                          // color: Colors.grey,
+                          decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.all(Radius.circular(20))
+                          ),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                              SizedBox(
+                                  width: MediaQuery.sizeOf(context).width / 2.1,
+                                  child: Icon(iconSelection, size: MediaQuery.sizeOf(context).width / 10,)),
+                              SizedBox(width: MediaQuery.of(context).size.width / 7),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: colorSelection,
+                                        borderRadius: BorderRadius.all(Radius.circular(20))
+                                    ),
+                                    height: MediaQuery.of(context).size.height / 10,
+                                    width: MediaQuery.of(context).size.height / 10,
+                                ),
+                          ],)
+                      ),
                     ),
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -70,7 +101,11 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                                             IconButton(
                                                 tooltip: pair.first,
                                                 onPressed: () {
-                                                    print(pair.first);
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        iconSelection=pair.last;            
+                                                    });
+                                                    }
                                                 }, 
                                                 icon: Icon(pair.last, size: MediaQuery.sizeOf(context).width / 10,)),
                                             Text(pair.first),
@@ -96,7 +131,13 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                                             // color: color,
                                             // shape: BoxShape.circle,
                                             // ),
-                                          child: ElevatedButton(onPressed: () {}, child: Text(""), style: ElevatedButton.styleFrom(
+                                          child: ElevatedButton(onPressed: () {
+                                            if (mounted) {
+                                              setState(() {
+                                                colorSelection=color;
+                                            });
+                                            }
+                                          }, child: Text(""), style: ElevatedButton.styleFrom(
                                               backgroundColor: color
                                           )),
                                         );
@@ -110,9 +151,23 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                         ],
                     ),
                     SizedBox(
-                        child: ElevatedButton(onPressed: () {}, child: Text("Confirm")),
                         width: MediaQuery.sizeOf(context).width / 2,
                         height: 50,
+                        child: ElevatedButton(onPressed: (categoryNameController.text != "") ? () {
+                            final ref =  FirebaseDatabase.instance.ref("user/${Auth().user?.uid}/categories");
+                            print("users/${Auth().user?.uid}/categories");
+                            List<dynamic> user_categories = List<dynamic>.from(_singleton.userData?.child("categories").value as List<dynamic>);
+                            user_categories.add({"name": categoryNameController.text, "color": colorToName[colorSelection], "icon": iconsToString[iconSelection]});
+                            ref.set(user_categories);
+                            Navigator.pop(context);
+                        //     ref.once().then((DatabaseEvent event) {
+                        //         DataSnapshot snapshot = event.snapshot;
+                        //         if (snapshot.value)
+                        //         List<dynamic> arr = List<dynamic>.from(snapshot.value as List<dynamic>);
+                        //         arr.add({"name": "Test"});
+                        //         ref.set(arr);
+                        // });
+                        } : null, child: const Text("Confirm")),
                     ),
                 ],
             )
