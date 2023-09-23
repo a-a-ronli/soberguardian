@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:soberguardian/shared/singleton.dart';
 import 'package:soberguardian/shared/colors_reference.dart';
 import 'package:soberguardian/add_category.dart';
+import 'package:soberguardian/contact.dart';
 
 //import 'notify_model.dart';
 //export 'notify_model.dart';
@@ -105,6 +106,7 @@ class EmergencyCategory extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           print('button pressed');
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContactsPage(categoryName: category["name"].toString(), categoryColor: nameToColors[category["color"].toString()])));
         },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(nameToColors[category["color"]]),

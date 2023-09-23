@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_database/firebase_database.dart';
+// import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:soberguardian/services/auth.dart';
