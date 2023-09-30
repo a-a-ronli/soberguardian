@@ -36,7 +36,7 @@ class _NotifyWidgetState extends State<NotifyWidget> {
 
   @override
   Widget build(BuildContext context) {
-
+    // _singleton.currentCategory = "";
     if (_singleton.userData != null) {
       // print(_singleton.userData!.child("pt").value);
       if (_singleton.userData!.child("categories").value != null) {
@@ -95,7 +95,9 @@ class _NotifyWidgetState extends State<NotifyWidget> {
 
 class EmergencyCategory extends StatelessWidget {
   final Map<Object?, Object?> category;
-  const EmergencyCategory({super.key, required this.category});
+  EmergencyCategory({super.key, required this.category});
+
+  Singleton _singleton = Singleton();
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +108,7 @@ class EmergencyCategory extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           print('button pressed');
+          _singleton.currentCategory = category["name"].toString();
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => ContactsPage(categoryName: category["name"].toString(), categoryColor: nameToColors[category["color"].toString()])));
         },
         style: ButtonStyle(

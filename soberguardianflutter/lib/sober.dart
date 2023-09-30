@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:soberguardian/home.dart';
 
 
 //import 'sober_model.dart';
@@ -33,6 +34,15 @@ class _SoberWidgetState extends State<SoberWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back), // Change the Icon as per your need
+          onPressed: () {
+            // Implement your custom behavior here
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePageWidget()));
+          },
+        ),
+      ),
       key: scaffoldKey,
       backgroundColor: const Color(0xFF93CCA8),
       body: Stack(

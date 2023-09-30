@@ -34,6 +34,7 @@ class AuthChecker extends StatelessWidget {
           // Save to local copy
 
           _singleton.userData = snapshot.data?.snapshot;
+          _singleton.notifyAllListeners();
           print(_singleton.userData?.value);
         }
 

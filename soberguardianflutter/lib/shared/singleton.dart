@@ -9,4 +9,10 @@ class Singleton extends ChangeNotifier {
     Singleton._internal();
 
     DataSnapshot? userData;
+
+    String currentCategory = "";
+
+    void notifyAllListeners() {
+        notifyListeners();
+    }
 }

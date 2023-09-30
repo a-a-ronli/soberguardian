@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'notification.dart';
 import 'emergency.dart';
+import 'package:soberguardian/home.dart';
+
 
 //import 'drunk_model.dart';
 //export 'drunk_model.dart';
@@ -34,6 +36,15 @@ class _DrunkWidgetState extends State<DrunkWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back), // Change the Icon as per your need
+          onPressed: () {
+            // Implement your custom behavior here
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePageWidget()));
+          },
+        ),
+      ),
       key: scaffoldKey,
       backgroundColor: const Color(0xFFDE666D),
       body: Align(
