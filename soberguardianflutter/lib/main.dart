@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:soberguardian/auth_checker.dart';
+import 'package:camera/camera.dart';
+import 'package:soberguardian/shared/singleton.dart';
 // import 'home.dart';
 import 'login.dart';
 //import 'package:google_fonts/google_fonts.dart';
@@ -9,9 +11,24 @@ import 'login.dart';
 // import 'title_model.dart';
 // export 'title_model.dart';
 
+late List<CameraDescription> _cameras;
+
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  _cameras = await availableCameras();
+  print(_cameras);
+
+  if (_cameras.isNotEmpty) {
+    final firstCamera = _cameras.first;
+    Singleton singleton = Singleton();
+    singleton.selfieCamera = firstCamera;
+  } else {
+    print("No camera detected");
+  }
+  
+
   runApp (const SoberGuardianApp());
 }
 

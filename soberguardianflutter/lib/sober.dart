@@ -35,6 +35,8 @@ class _SoberWidgetState extends State<SoberWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back), // Change the Icon as per your need
           onPressed: () {

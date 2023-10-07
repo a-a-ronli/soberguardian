@@ -47,5 +47,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>To take a picture of driver</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To record audio of driver</string>
 </dict>
 </plist>
