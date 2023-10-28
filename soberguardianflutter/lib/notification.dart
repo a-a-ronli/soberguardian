@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:location/location.dart';
+import 'package:soberguardian/shared/singleton.dart';
 
 //import 'notification_model.dart';
 //export 'notification_model.dart';
@@ -16,6 +18,105 @@ class NotificationWidget extends StatefulWidget {
 class _NotificationWidgetState extends State<NotificationWidget>
     with TickerProviderStateMixin {
   //late NotificationModel _model;
+
+  Location location = new Location();
+
+  Singleton _singleton = Singleton();
+
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
+  late LocationData _locationData;
+
+  String? dropdownValue = "Family";
+  var items = ["Family", "Medical", "Friends"]; // <-- replace with singleton userdata's categories
+
+  Future<void> _shareLocation() async {
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    _locationData = await location.getLocation();
+    String locationMessage = "I am here: https://maps.google.com/?q=${_locationData.latitude},${_locationData.longitude}";
+  }
+
+  Future<void> _dialogBuilder(BuildContext context) {
+    items.clear();
+    Map<Object?, Object?> contacts = _singleton.userData?.child("contacts").value as Map<Object?, Object?>;
+    contacts.forEach((key, value) => items.add(key.toString()));
+    dropdownValue = items.first;
+    List<List<String>> entries = [];
+    contacts.forEach((key, value) {
+      // TODO: change "Friends, [{name: aaron, number: 12345678}]" to "aaron, 12345678"
+      entries.add([key.toString(), value.toString()]);
+    });
+
+    return showDialog<void>(context: context, builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Contacts"),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      color: Colors.red,
+                      width: 125,
+                      height: 500,
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    Container(
+                      color: Colors.green,
+                      width: 125,
+                      height: 500,
+                      child: ListView(
+                        padding: EdgeInsets.all(10.0),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        children: entries.map((e) => ElevatedButton(onPressed: () {}, child: Text("${e[0]}\n${e[1]}"))).toList(),
+                      ),
+                    ), 
+                    DropdownButton<String>(
+                      value: dropdownValue,
+                      items: items.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(), 
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownValue = newValue;
+                        });
+                      })
+                  ],
+                )
+              ],
+            ),
+            actions: [
+              TextButton(onPressed: () {}, child: Text("Send Location"))
+            ],
+          );
+    });
+  }
+
+  
+
+  
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -157,7 +258,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
               barRadius: const Radius.circular(40),
               padding: EdgeInsets.zero,
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 10),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
@@ -209,16 +310,24 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                   ),
                         ),
                       ),
-                      Text(
-                        '3',
+                      TextButton(onPressed: () => _dialogBuilder(context), child: Text('3',
                         style:
                             TextStyle(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF090F13),
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,
-                                ),
-                      ),
+                                ),)),
+                      // Text(
+                      //   '3',
+                      //   style:
+                      //       TextStyle(
+                      //             fontFamily: 'Lexend Deca',
+                      //             color: Color(0xFF090F13),
+                      //             fontSize: 24,
+                      //             fontWeight: FontWeight.bold,
+                      //           ),
+                      // ),
                     ],
                   ),
                   Column(

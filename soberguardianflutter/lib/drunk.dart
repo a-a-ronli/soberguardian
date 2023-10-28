@@ -36,17 +36,17 @@ class _DrunkWidgetState extends State<DrunkWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back), // Change the Icon as per your need
-          onPressed: () {
-            // Implement your custom behavior here
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePageWidget()));
-          },
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0.0,
+      //   leading: IconButton(
+      //     icon: Icon(Icons.arrow_back), // Change the Icon as per your need
+      //     onPressed: () {
+      //       // Implement your custom behavior here
+      //       Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePageWidget()));
+      //     },
+      //   ),
+      // ),
       key: scaffoldKey,
       backgroundColor: const Color(0xFFDE666D),
       body: Align(
@@ -92,7 +92,7 @@ class _DrunkWidgetState extends State<DrunkWidget> {
                           style:
                               TextStyle(
                                     fontFamily: 'Poppins',
-                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
                                     fontSize: 22,
                                   ),
                         ),
@@ -116,6 +116,7 @@ class _DrunkWidgetState extends State<DrunkWidget> {
                             ),
                           ),
                         ),
+                        SizedBox(height: 50,),
                         Align(
                           alignment: const AlignmentDirectional(0, -0.2),
                           child: Row(

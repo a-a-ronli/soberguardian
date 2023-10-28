@@ -51,5 +51,9 @@
 	<string>To take a picture of driver</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To record audio of driver</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To have real time updates to emergency contacts</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>To have real time updates for you and emergency contacts</string>
 </dict>
 </plist>

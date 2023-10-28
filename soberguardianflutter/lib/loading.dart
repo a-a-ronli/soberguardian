@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:soberguardian/sober.dart';
-import 'package:camera/camera.dart';
+import 'package:soberguardian/test_photo.dart';
+// import 'package:camera/camera.dart';
 import 'drunk.dart';
 
 //import 'loading_model.dart';
@@ -19,7 +20,7 @@ class _LoadingWidgetState extends State<LoadingWidget>
   //late LoadingModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  late List<CameraDescription> _cameras;
+  // late List<CameraDescription> _cameras;
 
   @override
   void initState() {
@@ -36,7 +37,7 @@ class _LoadingWidgetState extends State<LoadingWidget>
 
   @override
   Widget build(BuildContext context) {
-    print(_cameras);
+    // print(_cameras);
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: const Color(0xFF1E2429),
@@ -95,17 +96,23 @@ class _LoadingWidgetState extends State<LoadingWidget>
               ),
               padding: EdgeInsets.zero,
             ),
+            // ElevatedButton(
+            //   onPressed: (){
+            //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => SoberWidget()));
+            //   },
+            //   child: Text('Sober'),
+            // ),
+            // ElevatedButton(
+            //   onPressed: (){
+            //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => DrunkWidget()));
+            //   },
+            //   child: Text('Drunk'),
+            // ),
             ElevatedButton(
               onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SoberWidget()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => PhotoScreen()));
               },
-              child: Text('Sober'),
-            ),
-            ElevatedButton(
-              onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => DrunkWidget()));
-              },
-              child: Text('Drunk'),
+              child: Text('Simulate Connection'),
             ),
           ],
         ),

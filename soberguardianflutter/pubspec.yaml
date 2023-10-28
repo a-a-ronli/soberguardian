@@ -48,6 +48,8 @@ dependencies:
   location: ^5.0.3
   http: ^1.1.0
   camera: ^0.10.5+5
+  share_plus: ^7.1.0
+  geocoding: ^2.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

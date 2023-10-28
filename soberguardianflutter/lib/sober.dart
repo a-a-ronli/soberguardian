@@ -41,7 +41,7 @@ class _SoberWidgetState extends State<SoberWidget> {
           icon: Icon(Icons.arrow_back), // Change the Icon as per your need
           onPressed: () {
             // Implement your custom behavior here
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePageWidget()));
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => HomePageWidget()), (route) => false);
           },
         ),
       ),
