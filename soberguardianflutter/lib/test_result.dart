@@ -19,7 +19,16 @@ class ResultScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                   const Text("Processing results..."),
+                  const SizedBox(
+                    height: 15
+                  ),
                   const LoadingWheel(),
+                  const SizedBox(
+                    height: 15
+                  ),
+                  ElevatedButton(onPressed: () {
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => HomePageWidget()), (route) => false);
+                  }, child: const Text("Cancel")),
                   ElevatedButton(
                       onPressed: (){
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => SoberWidget()));
@@ -32,9 +41,6 @@ class ResultScreen extends StatelessWidget {
                       },
                       child: const Text('Drunk'),
                   ),
-                  ElevatedButton(onPressed: () {
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => HomePageWidget()), (route) => false);
-                  }, child: const Text("Cancel"))
               ],
           ),
         )

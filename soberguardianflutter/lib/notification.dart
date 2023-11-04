@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:location/location.dart';
 import 'package:soberguardian/shared/singleton.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 //import 'notification_model.dart';
 //export 'notification_model.dart';
@@ -31,24 +33,43 @@ class _NotificationWidgetState extends State<NotificationWidget>
   var items = ["Family", "Medical", "Friends"]; // <-- replace with singleton userdata's categories
 
   Future<void> _shareLocation() async {
+    print("Checking permissions");
     _serviceEnabled = await location.serviceEnabled();
+    print("location: $_serviceEnabled");
     if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
       if (!_serviceEnabled) {
+        print("Service is not enabled.");
         return;
       }
     }
 
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
+      print("Permission denied");
       _permissionGranted = await location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
+        print("Permission not granted");
         return;
       }
     }
 
-    _locationData = await location.getLocation();
-    String locationMessage = "I am here: https://maps.google.com/?q=${_locationData.latitude},${_locationData.longitude}";
+    // print("test");
+    // _locationData = await location.getLocation();
+    // print("end");
+
+    _singleton.locationStreamController.stream.listen((locationData) {
+      print("YES");
+      if (mounted) {
+        setState(() {
+          print("TESTING: ");
+          print(locationData);
+        });
+      }
+    });
+
+    // String locationMessage = "I am here: https://maps.google.com/?q=${_locationData.latitude},${_locationData.longitude}";
+    // print(locationMessage);
   }
 
   Future<void> _dialogBuilder(BuildContext context) {
@@ -108,7 +129,10 @@ class _NotificationWidgetState extends State<NotificationWidget>
               ],
             ),
             actions: [
-              TextButton(onPressed: () {}, child: Text("Send Location"))
+              TextButton(onPressed: () {
+                print("Attempting to send location");
+                _shareLocation();
+              }, child: const Text("Send Location"))
             ],
           );
     });
@@ -194,6 +218,17 @@ class _NotificationWidgetState extends State<NotificationWidget>
               height: 200,
               fit: BoxFit.cover,
             ),
+            // Container(
+            //   child: FlutterMap(
+            //     options: MapOptions(
+            //       initialCenter: LatLng(33.69299, 117.76669),
+            //       zoom: 10.0,
+            //     ),
+            //     children: [
+                  
+            //     ],
+            //   ),
+            // ),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,

@@ -125,30 +125,44 @@ class _DrunkWidgetState extends State<DrunkWidget> {
                             children: [
                               Align(
                                 alignment: const AlignmentDirectional(0.7, -0.15),
-                                child: ElevatedButton.icon(
-                                  onPressed: () {
-                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotifyWidget()));
-                                  },
-                                  label: const Text('Notify'),
-                                  icon: const Icon(
-                                    Icons.family_restroom,
-                                    size: 15,
+                                child: SizedBox(
+                                  width: 175,
+                                  height: 65,
+                                  child: ElevatedButton.icon(
+                                    onPressed: () {
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotifyWidget()));
+                                    },
+                                    label: const Text('Notify'),
+                                    icon: const Icon(
+                                      Icons.family_restroom,
+                                      size: 25,
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
                         ),
+                        const SizedBox(
+                          height: 10
+                        ),
                         Align(
                           alignment: const AlignmentDirectional(0, 0.25),
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationWidget()));
-                            },
-                            label: const Text('Send Location'),
-                            icon: const Icon(
-                              Icons.location_on,
-                              size: 15,
+                          child: SizedBox(
+                            width: 175,
+                            height: 65,
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationWidget()));
+                              },
+                              label: const Text('Send Location'),
+                              icon: const Icon(
+                                Icons.location_on,
+                                size: 25,
+                              ),
                             ),
                           ),
                         ),

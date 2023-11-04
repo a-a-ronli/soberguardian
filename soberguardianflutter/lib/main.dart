@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:soberguardian/auth_checker.dart';
 import 'package:camera/camera.dart';
 import 'package:soberguardian/shared/singleton.dart';
+import 'package:soberguardian/map_test.dart';
+import 'package:latlong2/latlong.dart';
 // import 'home.dart';
 import 'login.dart';
 //import 'package:google_fonts/google_fonts.dart';
@@ -39,7 +41,8 @@ class SoberGuardianApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AuthChecker(),
+      // home: AuthChecker(),
+      home: MapScreen(center: LatLng(50.0, -0.09),)
     );
   }
 }
