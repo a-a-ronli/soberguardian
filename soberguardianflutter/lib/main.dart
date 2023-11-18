@@ -4,6 +4,7 @@ import 'package:soberguardian/auth_checker.dart';
 import 'package:camera/camera.dart';
 import 'package:soberguardian/shared/singleton.dart';
 import 'package:soberguardian/map_test.dart';
+import 'package:soberguardian/firebase_options.dart';
 import 'package:latlong2/latlong.dart';
 // import 'home.dart';
 import 'login.dart';
@@ -17,7 +18,9 @@ late List<CameraDescription> _cameras;
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   _cameras = await availableCameras();
   print(_cameras);
@@ -41,8 +44,8 @@ class SoberGuardianApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: AuthChecker(),
-      home: MapScreen(center: LatLng(50.0, -0.09),)
+      home: AuthChecker(),
+      // home: MapScreen(center: LatLng(50.0, -0.09),)
     );
   }
 }

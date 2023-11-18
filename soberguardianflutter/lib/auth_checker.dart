@@ -6,6 +6,7 @@ import 'package:soberguardian/main.dart';
 import 'package:soberguardian/home.dart';
 import 'package:soberguardian/shared/singleton.dart';
 import 'package:soberguardian/shared/loading.dart';
+import 'package:soberguardian/size_config.dart';
 
 class AuthChecker extends StatelessWidget {
   AuthChecker({super.key});
@@ -14,6 +15,7 @@ class AuthChecker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return StreamBuilder(
       stream: FirebaseDatabase.instance.ref("user/${Auth().user?.uid}").onValue, 
       builder: ((BuildContext context, AsyncSnapshot<DatabaseEvent> snapshot) {

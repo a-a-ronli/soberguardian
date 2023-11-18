@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "488132257166",
+    "firebase_url": "https://soberguardian-29ec3-default-rtdb.firebaseio.com",
     "project_id": "soberguardian-29ec3",
     "storage_bucket": "soberguardian-29ec3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:488132257166:android:23f6cfa03941db6b4ff0df",
+        "mobilesdk_app_id": "1:488132257166:android:10382ee77939e7cd4ff0df",
         "android_client_info": {
-          "package_name": "com.aaron.soberguardian"
+          "package_name": "com.example.soberguardian"
         }
       },
       "oauth_client": [
