@@ -16,6 +16,8 @@ class Singleton extends ChangeNotifier {
 
     CameraDescription? selfieCamera;
 
+    List<CameraDescription> cameras = [];
+
     String currentCategory = "";
 
     StreamController<LocationData> locationStreamController = StreamController<LocationData>.broadcast();

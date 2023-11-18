@@ -11,6 +11,7 @@ import 'package:soberguardian/services/auth.dart';
 import 'package:soberguardian/main.dart';
 import 'package:soberguardian/shared/singleton.dart';
 import 'package:location/location.dart';
+import 'package:soberguardian/size_config.dart';
 import 'package:http/http.dart' as http;
 import 'emergency.dart';
 import 'loading.dart';
@@ -133,7 +134,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               alignment: const AlignmentDirectional(0, 0.5),
               child: Container(
                 width: double.infinity,
-                height: 400,
+                height: SizeConfig.blockSizeVertical! * 50,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   image: DecorationImage(
@@ -303,7 +304,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               EdgeInsetsDirectional.fromSTEB(
                                                   8, 0, 0, 4),
                                           child: Text(
-                                            'Current TIme',
+                                            'Current Time',
                                             style: TextStyle(
                                                   fontFamily: 'Outfit',
                                                   color: Colors.white,

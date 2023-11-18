@@ -29,6 +29,7 @@ Future<void> main() async{
     final firstCamera = _cameras.first;
     Singleton singleton = Singleton();
     singleton.selfieCamera = firstCamera;
+    singleton.cameras.add(firstCamera);
   } else {
     print("No camera detected");
   }
