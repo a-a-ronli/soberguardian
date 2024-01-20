@@ -11,7 +11,9 @@ import 'package:soberguardian/services/auth.dart';
 import 'package:soberguardian/main.dart';
 import 'package:soberguardian/shared/singleton.dart';
 import 'package:location/location.dart';
+import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:soberguardian/size_config.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'emergency.dart';
 import 'loading.dart';
@@ -32,10 +34,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   List<Map<Object?, Object?>> tests = [];
   final _singleton = Singleton();
+  String? city;
+
+  void initLocation() async {
+    city = await getLocation();
+
+    setState(() {});
+  }
 
   @override
   void initState() {
     super.initState();
+    initLocation();
    // _model = createModel(context, () => HomePageModel());
     Timer.periodic(const Duration(seconds: 1), (timer){
       if (mounted) setState(() {});
@@ -49,7 +59,62 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     super.dispose();
   }
 
-  Future<String?> getCity() async {
+  // Future<String?> getCity() async {
+  //   Location location = new Location();
+
+  //   bool _serviceEnabled;
+  //   PermissionStatus _permissionGranted;
+  //   LocationData _locationData;
+
+  //   _serviceEnabled = await location.serviceEnabled();
+  //   if (!_serviceEnabled) {
+  //     _serviceEnabled = await location.requestService();
+  //     if (!_serviceEnabled) {
+  //       return null;
+  //     }
+  //   }
+
+  //   _permissionGranted = await location.hasPermission();
+  //   if (_permissionGranted == PermissionStatus.denied) {
+  //     _permissionGranted = await location.requestPermission();
+  //     if (_permissionGranted != PermissionStatus.granted) {
+  //       return null;
+  //     }
+  //   }
+
+  //   _locationData = await location.getLocation();
+
+  //   // TODO: Get the city name via API
+  //   const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';  // Replace with your actual API key
+
+  //   double lat = _locationData.latitude as double;
+  //   double lon = _locationData.longitude as double;
+
+  //   final url =
+  //       'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lon&key=$apiKey';
+
+  //   final response = await http.get(Uri.parse(url));
+
+  //   if (response.statusCode == 200) {
+  //     Map<String, dynamic> data = json.decode(response.body);
+  //     if (data["results"] != null && data["results"].length > 0) {
+  //       for(var result in data["results"]) {
+  //         if (result["types"].contains("locality")) {
+  //           for (var component in result["address_components"]) {
+  //             if (component["types"].contains("locality")) {
+  //               return component["long_name"];
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   return null;
+  // }
+
+  Future<String?> getLocation() async {
+    print("Step 1");
     Location location = new Location();
 
     bool _serviceEnabled;
@@ -63,7 +128,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         return null;
       }
     }
-
+    print("Step 2");
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
@@ -72,39 +137,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       }
     }
 
+    print("Step 3");
     _locationData = await location.getLocation();
-
-    // TODO: Get the city name via API
-    const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';  // Replace with your actual API key
-
-    double lat = _locationData.latitude as double;
-    double lon = _locationData.longitude as double;
-
-    final url =
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lon&key=$apiKey';
-
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = json.decode(response.body);
-      if (data["results"] != null && data["results"].length > 0) {
-        for(var result in data["results"]) {
-          if (result["types"].contains("locality")) {
-            for (var component in result["address_components"]) {
-              if (component["types"].contains("locality")) {
-                return component["long_name"];
-              }
-            }
-          }
-        }
-      }
-    }
-
-    return null;
+    print(_locationData);
+    List<geocoding.Placemark> placemarks = await geocoding.placemarkFromCoordinates(_locationData.latitude!, _locationData.longitude!);
+    print(placemarks);
+    geocoding.Placemark place = placemarks[0];
+    print("ELEMENT: ${place.locality}");
+    print(place);
+    return place.locality;
   }
 
   @override
   Widget build(BuildContext context) {
+
+
 
     if (_singleton.userData != null) {
       // print(_singleton.userData!.child("pt").value);
@@ -232,7 +279,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                               const EdgeInsetsDirectional.fromSTEB(
                                                   8, 0, 0, 0),
                                           child: Text(
-                                            "San Diego",
+                                            (city != null) ? city!: "Los Angeles",
                                             style: const TextStyle(
                                                   fontFamily: 'Outfit',
                                                   color: Colors.white,
@@ -485,11 +532,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     height: 100,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoadingWidget()));
                         Auth().logout().then((value) {
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => TitleWidget()));
                         });
-
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 255, 7, 7)),
