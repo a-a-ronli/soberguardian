@@ -26,6 +26,7 @@ Future<void> main() async {
   print(_cameras);
 
   if (_cameras.isNotEmpty) {
+    // TODO: change this camera to the front side camera
     final firstCamera = _cameras.first;
     Singleton singleton = Singleton();
     singleton.selfieCamera = firstCamera;

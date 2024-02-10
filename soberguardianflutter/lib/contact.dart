@@ -3,6 +3,7 @@ import 'package:soberguardian/add_contact.dart';
 import 'package:soberguardian/shared/singleton.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:soberguardian/services/auth.dart';
+import 'package:soberguardian/contact_result.dart';
 
 class ContactsPage extends StatefulWidget {
   final String categoryName;
@@ -63,7 +64,11 @@ class _ContactsPageState extends State<ContactsPage> {
                           Text(name, style: TextStyle(fontSize: 16)),
                           Text(number, style: TextStyle(fontSize: 16)),
                           ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ContactResultScreen(
+                                        response: "Send Location")));
+                              },
                               child: Text("Send Location",
                                   style: TextStyle(color: Colors.black)),
                               style: ElevatedButton.styleFrom(
@@ -77,35 +82,61 @@ class _ContactsPageState extends State<ContactsPage> {
                               scrollDirection: Axis.vertical,
                               children: [
                                 ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => ContactResultScreen(
+                                              response:
+                                                  "Can you come pick me up.")));
+                                    },
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white),
+                                        backgroundColor: Colors.blue),
                                     child: Text("Can you come pick me up.",
-                                        style: TextStyle(color: Colors.black))),
+                                        style: TextStyle(color: Colors.white))),
                                 ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => ContactResultScreen(
+                                              response:
+                                                  "I'm currently drunk, can you get help?")));
+                                    },
                                     style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white),
+                                        backgroundColor: Colors.red),
                                     child: Text(
                                         "I'm currently drunk, can you get help?",
-                                        style: TextStyle(color: Colors.black))),
+                                        style: TextStyle(color: Colors.white))),
                                 ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => ContactResultScreen(
+                                              response:
+                                                  "Someone is driving me home")));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.green),
+                                    child: Text("Someone is driving me home.",
+                                        style: TextStyle(color: Colors.white))),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => ContactResultScreen(
+                                              response:
+                                                  "I'm staying somewhere for the night.")));
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.purple),
+                                    child: Text(
+                                        "I'm staying somewhere for the night.",
+                                        style: TextStyle(color: Colors.white))),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(MaterialPageRoute(
+                                          builder: (context) => ContactResultScreen(
+                                              response:
+                                                  "Can I stay by your house?.")));
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white),
-                                    child: Text("Lorem ipsum dolor sit amet.",
-                                        style: TextStyle(color: Colors.black))),
-                                ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white),
-                                    child: Text("Lorem ipsum dolor sit amet.",
-                                        style: TextStyle(color: Colors.black))),
-                                ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.white),
-                                    child: Text("Lorem ipsum dolor sit amet.",
+                                    child: Text("Can I stay by your house?.",
                                         style: TextStyle(color: Colors.black))),
                               ],
                             ),
@@ -149,48 +180,50 @@ class _ContactsPageState extends State<ContactsPage> {
                     )),
               ],
             ),
-            ListView(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                children: contacts
-                    .map((contact) => ContactCard(
-                          categoryColor: widget.categoryColor,
-                          name: contact["name"],
-                          number: contact["number"],
-                          onCardTap: () {
-                            setState(() {
-                              name = contact["name"];
-                              number = contact["number"];
-                            });
-                          },
-                        ))
-                    .toList()
-                // children: [
-                //     ContactCard(
-                //         categoryColor: widget.categoryColor,
-                //         name: "John Appleseed",
-                //         number: "123-456-7890",
-                //         onCardTap: () {
-                //             setState(() {
-                //                 name = "John Appleseed";
-                //                 number = "123-456-7890";
-                //             });
-                //         },
-                //     ),
-                //     ContactCard(
-                //         categoryColor: widget.categoryColor,
-                //         name: "Jane Doe",
-                //         number: "123-456-7890",
-                //         onCardTap: () {
-                //             setState(() {
-                //                 name = "Jane Doe";
-                //                 number = "123-456-7890";
-                //             });
-                //         },
-                //     ),
-                // ],
-                )
+            Expanded(
+              child: ListView(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  children: contacts
+                      .map((contact) => ContactCard(
+                            categoryColor: widget.categoryColor,
+                            name: contact["name"],
+                            number: contact["number"].toString(),
+                            onCardTap: () {
+                              setState(() {
+                                name = contact["name"];
+                                number = contact["number"].toString();
+                              });
+                            },
+                          ))
+                      .toList()
+                  // children: [
+                  //     ContactCard(
+                  //         categoryColor: widget.categoryColor,
+                  //         name: "John Appleseed",
+                  //         number: "123-456-7890",
+                  //         onCardTap: () {
+                  //             setState(() {
+                  //                 name = "John Appleseed";
+                  //                 number = "123-456-7890";
+                  //             });
+                  //         },
+                  //     ),
+                  //     ContactCard(
+                  //         categoryColor: widget.categoryColor,
+                  //         name: "Jane Doe",
+                  //         number: "123-456-7890",
+                  //         onCardTap: () {
+                  //             setState(() {
+                  //                 name = "Jane Doe";
+                  //                 number = "123-456-7890";
+                  //             });
+                  //         },
+                  //     ),
+                  // ],
+                  ),
+            )
           ],
         ),
       ),

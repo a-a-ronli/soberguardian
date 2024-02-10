@@ -4,7 +4,6 @@ import 'notification.dart';
 import 'emergency.dart';
 import 'package:soberguardian/home.dart';
 
-
 //import 'drunk_model.dart';
 //export 'drunk_model.dart';
 
@@ -89,12 +88,11 @@ class _DrunkWidgetState extends State<DrunkWidget> {
                         ),
                         const Text(
                           'You are drunk!',
-                          style:
-                              TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 22,
-                                  ),
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                          ),
                         ),
                         Align(
                           alignment: const AlignmentDirectional(0, 0.05),
@@ -103,20 +101,21 @@ class _DrunkWidgetState extends State<DrunkWidget> {
                             radius: 80,
                             lineWidth: 24,
                             animation: true,
-                            progressColor:
-                                Colors.red,
+                            progressColor: Colors.red,
                             backgroundColor: Colors.white,
                             center: const Text(
                               'Confidence',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.black,
-                                  ),
+                                fontFamily: 'Poppins',
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                         ),
-                        SizedBox(height: 50,),
+                        SizedBox(
+                          height: 50,
+                        ),
                         Align(
                           alignment: const AlignmentDirectional(0, -0.2),
                           child: Row(
@@ -124,13 +123,17 @@ class _DrunkWidgetState extends State<DrunkWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Align(
-                                alignment: const AlignmentDirectional(0.7, -0.15),
+                                alignment:
+                                    const AlignmentDirectional(0.7, -0.15),
                                 child: SizedBox(
                                   width: 175,
                                   height: 65,
                                   child: ElevatedButton.icon(
                                     onPressed: () {
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotifyWidget()));
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  NotifyWidget()));
                                     },
                                     label: const Text('Notify'),
                                     icon: const Icon(
@@ -143,29 +146,29 @@ class _DrunkWidgetState extends State<DrunkWidget> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 10
-                        ),
-                        Align(
-                          alignment: const AlignmentDirectional(0, 0.25),
-                          child: SizedBox(
-                            width: 175,
-                            height: 65,
-                            child: ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationWidget()));
-                              },
-                              label: const Text('Send Location'),
-                              icon: const Icon(
-                                Icons.location_on,
-                                size: 25,
-                              ),
-                            ),
-                          ),
-                        ),
+                        // const SizedBox(
+                        //   height: 10
+                        // ),
+                        // Align(
+                        //   alignment: const AlignmentDirectional(0, 0.25),
+                        //   child: SizedBox(
+                        //     width: 175,
+                        //     height: 65,
+                        //     child: ElevatedButton.icon(
+                        //       style: ElevatedButton.styleFrom(
+                        //         backgroundColor: Colors.green
+                        //       ),
+                        //       onPressed: () {
+                        //         Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotificationWidget()));
+                        //       },
+                        //       label: const Text('Send Location'),
+                        //       icon: const Icon(
+                        //         Icons.location_on,
+                        //         size: 25,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
