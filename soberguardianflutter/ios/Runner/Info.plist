@@ -26,12 +26,16 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>To take a picture of driver</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need your location for ... whether you're using the app or not.</string>
+	<string>To have real time updates for you and emergency contacts</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We need your location for ... even when the app is in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location for ...</string>
+	<string>To have real time updates to emergency contacts</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To record audio of driver</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -47,13 +51,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSCameraUsageDescription</key>
-	<string>To take a picture of driver</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>To record audio of driver</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>To have real time updates to emergency contacts</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To have real time updates for you and emergency contacts</string>
 </dict>
 </plist>

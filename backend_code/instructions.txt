@@ -1,0 +1,10 @@
+Initialize tools:
+npm install -g firebase-tools
+firebase login
+firebase init functions
+
+
+[AFTER WRITING FUNCTIONS]
+
+
+firebase deploy --only functions

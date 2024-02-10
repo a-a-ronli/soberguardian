@@ -16,7 +16,7 @@ import 'login.dart';
 
 late List<CameraDescription> _cameras;
 
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -33,9 +33,8 @@ Future<void> main() async{
   } else {
     print("No camera detected");
   }
-  
 
-  runApp (const SoberGuardianApp());
+  runApp(const SoberGuardianApp());
 }
 
 class SoberGuardianApp extends StatelessWidget {
@@ -82,7 +81,7 @@ class _TitleWidgetState extends State<TitleWidget> {
       //onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: const Color(0xFF186FF0),
+        backgroundColor: const Color.fromARGB(255, 24, 111, 240),
         body: SafeArea(
           top: true,
           child: Align(
@@ -104,10 +103,10 @@ class _TitleWidgetState extends State<TitleWidget> {
                       'Sober Guardian',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                            fontSize: 38,
-                          ),
+                        fontFamily: 'Poppins',
+                        color: Colors.white,
+                        fontSize: 38,
+                      ),
                     ),
                   ],
                 ),
@@ -116,14 +115,15 @@ class _TitleWidgetState extends State<TitleWidget> {
           ),
         ),
         persistentFooterButtons: [
-            ElevatedButton(
-              onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginWidget()));
-              } ,
-              child: Icon(Icons.home),
-            ),
-          ],
-        ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => LoginWidget()));
+            },
+            child: Icon(Icons.home),
+          ),
+        ],
+      ),
     );
   }
 }

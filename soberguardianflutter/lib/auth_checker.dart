@@ -17,38 +17,37 @@ class AuthChecker extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return StreamBuilder(
-      stream: FirebaseDatabase.instance.ref("user/${Auth().user?.uid}").onValue, 
-      builder: ((BuildContext context, AsyncSnapshot<DatabaseEvent> snapshot) {
+        stream:
+            FirebaseDatabase.instance.ref("users/${Auth().user?.uid}").onValue,
+        builder:
+            ((BuildContext context, AsyncSnapshot<DatabaseEvent> snapshot) {
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
 
-        if (snapshot.hasError) {
-          return Text(snapshot.error.toString());
-        }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const LoadingScreen();
+          }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const LoadingScreen();
-        }
+          print("Here is the data: ${snapshot.data?.snapshot}");
+          print("Here is the type: ${snapshot.data?.snapshot.runtimeType}");
+          print("path: ${Auth().user?.uid}");
 
-        print("Here is the data: ${snapshot.data?.snapshot}");
-        print("Here is the type: ${snapshot.data?.snapshot.runtimeType}");
-        print("path: ${Auth().user?.uid}");
+          if (snapshot.data != null) {
+            // Save to local copy
 
-        if (snapshot.data != null) {
-          // Save to local copy
+            _singleton.userData = snapshot.data?.snapshot;
+            _singleton.notifyAllListeners();
+            print(_singleton.userData?.value);
+          }
 
-          _singleton.userData = snapshot.data?.snapshot;
-          _singleton.notifyAllListeners();
-          print(_singleton.userData?.value);
-        }
+          User? user = Auth().user;
 
-        User? user = Auth().user;
-
-        if (user == null) {
+          if (user == null) {
             return const TitleWidget();
-        } else {
+          } else {
             return const HomePageWidget();
-        }
-    }));
-
-    
+          }
+        }));
   }
 }

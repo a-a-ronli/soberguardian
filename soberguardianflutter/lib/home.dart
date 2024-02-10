@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:ui';
 import 'dart:async';
@@ -46,8 +45,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   void initState() {
     super.initState();
     initLocation();
-   // _model = createModel(context, () => HomePageModel());
-    Timer.periodic(const Duration(seconds: 1), (timer){
+    // _model = createModel(context, () => HomePageModel());
+    Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) setState(() {});
     });
   }
@@ -140,7 +139,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     print("Step 3");
     _locationData = await location.getLocation();
     print(_locationData);
-    List<geocoding.Placemark> placemarks = await geocoding.placemarkFromCoordinates(_locationData.latitude!, _locationData.longitude!);
+    List<geocoding.Placemark> placemarks =
+        await geocoding.placemarkFromCoordinates(
+            _locationData.latitude!, _locationData.longitude!);
     print(placemarks);
     geocoding.Placemark place = placemarks[0];
     print("ELEMENT: ${place.locality}");
@@ -150,21 +151,17 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     if (_singleton.userData != null) {
       // print(_singleton.userData!.child("pt").value);
       if (_singleton.userData!.child("pt").value != null) {
         tests.clear();
-        for (final child in _singleton.userData!.child("pt").value! as List<dynamic>) {
+        for (final child
+            in _singleton.userData!.child("pt").value! as List<dynamic>) {
           if (child != null) tests.add(child);
           // print(child);
         }
       }
-      
     }
-    
 
     var dt = DateTime.now();
 
@@ -187,8 +184,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: Image.asset(
-                        'assets/images/drinks.png',
-                      ).image,
+                      'assets/images/drinks.png',
+                    ).image,
                   ),
                 ),
                 child: Container(
@@ -219,11 +216,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               child: AutoSizeText(
                                 '',
                                 style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: Colors.white,
-                                      fontSize: 35,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                  fontFamily: 'Poppins',
+                                  color: Colors.white,
+                                  fontSize: 35,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ],
@@ -267,27 +264,28 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           child: Text(
                                             'Current Location',
                                             style: TextStyle(
-                                                  fontFamily: 'Outfit',
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
+                                              fontFamily: 'Outfit',
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                            ),
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  8, 0, 0, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(8, 0, 0, 0),
                                           child: Text(
-                                            (city != null) ? city!: "Los Angeles",
+                                            (city != null)
+                                                ? city!
+                                                : "Los Angeles",
                                             style: const TextStyle(
-                                                  fontFamily: 'Outfit',
-                                                  color: Colors.white,
-                                                  fontSize: 34,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
+                                              fontFamily: 'Outfit',
+                                              color: Colors.white,
+                                              fontSize: 34,
+                                              fontWeight: FontWeight.w500,
                                             ),
-                                          )
+                                          ),
+                                        )
                                         // FutureBuilder<String?>(
                                         //   future: getCity(),
                                         //   builder: (BuildContext context, AsyncSnapshot<String?> snapshot)
@@ -320,8 +318,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        20, 0, 20, 0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            20, 0, 20, 0),
                                     child: Container(
                                       width: 2,
                                       height: 100,
@@ -353,11 +352,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           child: Text(
                                             'Current Time',
                                             style: TextStyle(
-                                                  fontFamily: 'Outfit',
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
+                                              fontFamily: 'Outfit',
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.normal,
+                                            ),
                                           ),
                                         ),
                                         Padding(
@@ -367,11 +366,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           child: Text(
                                             '${(dt.hour > 12) ? dt.hour - 12 : (dt.hour != 0) ? dt.hour : 12}:${(dt.minute) < 10 ? "0${dt.minute}" : dt.minute}',
                                             style: TextStyle(
-                                                  fontFamily: 'Outfit',
-                                                  color: Colors.white,
-                                                  fontSize: 28,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
+                                              fontFamily: 'Outfit',
+                                              color: Colors.white,
+                                              fontSize: 28,
+                                              fontWeight: FontWeight.normal,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -397,11 +396,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   child: Text(
                     'Previous Times Tested',
                     style: TextStyle(
-                          fontFamily: 'Outfit',
-                          color: Color(0xFF57636C),
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                        ),
+                      fontFamily: 'Outfit',
+                      color: Color(0xFF57636C),
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ),
                 Container(
@@ -416,7 +415,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      children: tests.map((test) => TestEntry(test: test)).toList(),
+                      children:
+                          tests.map((test) => TestEntry(test: test)).toList(),
                     ),
                   ),
                 ),
@@ -425,11 +425,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   child: Text(
                     'Features',
                     style: TextStyle(
-                          fontFamily: 'Outfit',
-                          color: Color(0xFF57636C),
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                        ),
+                      fontFamily: 'Outfit',
+                      color: Color(0xFF57636C),
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ),
                 Padding(
@@ -449,38 +449,40 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         height: 100,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoadingWidget()));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => LoadingWidget()));
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xff186ff0)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            backgroundColor:
+                                MaterialStateProperty.all(Color(0xff186ff0)),
+                            padding: MaterialStateProperty.all(
+                                EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
+                                  borderRadius: BorderRadius.circular(12.0)),
                             ),
                           ),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.no_drinks_sharp,
-                                size: 44,
+                          child: Column(children: [
+                            Icon(
+                              color: Colors.white,
+                              Icons.no_drinks_sharp,
+                              size: 44,
+                            ),
+                            Container(
+                              height: 12,
+                              width: 135,
+                            ),
+                            Text(
+                              'Test',
+                              style: TextStyle(
+                                fontFamily: 'Outfit',
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
                               ),
-                              Container(
-                                height: 12,
-                                width: 135,
-                              ),
-                              Text(
-                                'Test',
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ]
-                          ),  
+                            ),
+                          ]),
                         ),
                       ),
                       ButtonTheme(
@@ -488,86 +490,142 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         height: 100,
                         child: ElevatedButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => NotifyWidget()));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => NotifyWidget()));
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(Color(0xff186ff0)),
-                            padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            backgroundColor:
+                                MaterialStateProperty.all(Color(0xff186ff0)),
+                            padding: MaterialStateProperty.all(
+                                EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              ),
+                                  borderRadius: BorderRadius.circular(12.0)),
                             ),
                           ),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.contacts,
-                                size: 44,
+                          child: Column(children: [
+                            Icon(
+                              color: Colors.white,
+                              Icons.contacts,
+                              size: 44,
+                            ),
+                            Container(
+                              height: 12,
+                              width: 12,
+                            ),
+                            Text(
+                              'Contact Emergency',
+                              style: TextStyle(
+                                fontFamily: 'Outfit',
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
                               ),
-                              Container(
-                                height: 12,
-                                width: 12,
-                              ),
-                              Text(
-                                'Contact Emergency',
-                                style: TextStyle(
-                                  fontFamily: 'Outfit',
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ]
-                          ),  
+                            ),
+                          ]),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(24, 12, 0, 0),
-                  child: ButtonTheme(
-                    minWidth: 160,
-                    height: 100,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Auth().logout().then((value) {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => TitleWidget()));
-                        });
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 255, 7, 7)),
-                        padding: MaterialStateProperty.all(EdgeInsetsDirectional.fromSTEB(12,12,12,12)),
-                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0)
-                          ),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.logout,
-                            size: 44,
-                          ),
-                          Container(
-                            height: 12,
-                            width: 135,
-                          ),
-                          Text(
-                            'Log Out',
-                            style: TextStyle(
-                              fontFamily: 'Outfit',
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
+                Row(
+                  children: [
+                    Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(24, 12, 0, 0),
+                      child: ButtonTheme(
+                        minWidth: 160,
+                        height: 100,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Auth().logout().then((value) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => TitleWidget()));
+                            });
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Color.fromARGB(255, 255, 7, 7)),
+                            padding: MaterialStateProperty.all(
+                                EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0)),
                             ),
                           ),
-                        ]
-                      ),  
+                          child: Column(children: [
+                            Icon(
+                              color: Colors.white,
+                              Icons.logout,
+                              size: 44,
+                            ),
+                            Container(
+                              height: 12,
+                              width: 135,
+                            ),
+                            Text(
+                              'Log Out',
+                              style: TextStyle(
+                                fontFamily: 'Outfit',
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ]),
+                        ),
+                      ),
                     ),
-                  ),
+                    Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(24, 12, 0, 0),
+                      child: ButtonTheme(
+                        minWidth: 160,
+                        height: 100,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Auth().logout().then((value) {
+                            //   Navigator.of(context).push(MaterialPageRoute(
+                            //       builder: (context) => TitleWidget()));
+                            // });
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Color.fromARGB(255, 255, 7, 7)),
+                            padding: MaterialStateProperty.all(
+                                EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0)),
+                            ),
+                          ),
+                          child: Column(children: [
+                            Icon(
+                              color: Colors.white,
+                              Icons.logout,
+                              size: 44,
+                            ),
+                            Container(
+                              height: 12,
+                              width: 135,
+                            ),
+                            Text(
+                              'TEST NOTIFICATION',
+                              style: TextStyle(
+                                fontFamily: 'Outfit',
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ]),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -587,60 +645,60 @@ class TestEntry extends StatelessWidget {
     // print("TEST: ${test["confidence"]}");
     DateTime parsedDateTime = DateTime.parse(test["time"].toString());
     return Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 8, 8),
-            child: Container(
-              width: 160,
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: const [
-                  BoxShadow(
-                    blurRadius: 3,
-                    color: Color(0x33000000),
-                    offset: Offset(0, 1),
-                  )
-                ],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      DateFormat('hh:mm a').format(parsedDateTime),
-                      style: const TextStyle(
-                            fontFamily: 'Outfit',
-                            color: Color(0xFF14181B),
-                            fontSize: 28,
-                            fontWeight: FontWeight.normal,
-                          ),
-                    ),
-                    Text(
-                      'Confidence: ${test["confidence"]}%',
-                      style: const TextStyle(
-                            fontFamily: 'Outfit',
-                            color: Color(0xFF57636C),
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                          ),
-                    ),
-                    Text(
-                      '${test["status"]}',
-                      style:TextStyle(
-                            fontFamily: 'Outfit',
-                            color: (test["status"] == "Sober") ? Colors.green : Colors.red,
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                          ),
-                    ),
-                  ],
+      padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 8, 8),
+      child: Container(
+        width: 160,
+        height: 100,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(
+              blurRadius: 3,
+              color: Color(0x33000000),
+              offset: Offset(0, 1),
+            )
+          ],
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                DateFormat('hh:mm a').format(parsedDateTime),
+                style: const TextStyle(
+                  fontFamily: 'Outfit',
+                  color: Color(0xFF14181B),
+                  fontSize: 28,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
-            ),
-          );
+              Text(
+                'Confidence: ${test["confidence"]}%',
+                style: const TextStyle(
+                  fontFamily: 'Outfit',
+                  color: Color(0xFF57636C),
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              Text(
+                '${test["status"]}',
+                style: TextStyle(
+                  fontFamily: 'Outfit',
+                  color:
+                      (test["status"] == "Sober") ? Colors.green : Colors.red,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
