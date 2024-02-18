@@ -14,6 +14,7 @@ import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:soberguardian/size_config.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
+import 'package:soberguardian/integrated_notification.dart';
 import 'emergency.dart';
 import 'loading.dart';
 
@@ -227,31 +228,41 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             ],
                           ),
                           // semi-transparent notification card
-                          SizedBox(
-                              width: SizeConfig.blockSizeHorizontal! * 90,
-                              height: SizeConfig.blockSizeHorizontal! * 20,
-                              child: Card(
-                                  color: const Color.fromARGB(200, 75, 75, 75),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "Aaron Li",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text("Can you come pick me up?",
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                      ],
-                                    ),
-                                  )))
+                          // SizedBox(
+                          //     width: SizeConfig.blockSizeHorizontal! * 90,
+                          //     height: SizeConfig.blockSizeHorizontal! * 20,
+                          //     child: Card(
+                          //         color: const Color.fromARGB(200, 75, 75, 75),
+                          //         child: InkWell(
+                          //           onTap: () {},
+                          //           child: Padding(
+                          //             padding: const EdgeInsets.all(8.0),
+                          //             child: Column(
+                          //               mainAxisAlignment:
+                          //                   MainAxisAlignment.spaceEvenly,
+                          //               crossAxisAlignment:
+                          //                   CrossAxisAlignment.start,
+                          //               children: [
+                          //                 Text(
+                          //                   "Aaron Li",
+                          //                   style: TextStyle(
+                          //                       color: Colors.white,
+                          //                       fontWeight: FontWeight.bold),
+                          //                 ),
+                          //                 Text("Can you come pick me up?",
+                          //                     style: TextStyle(
+                          //                         color: Colors.white)),
+                          //               ],
+                          //             ),
+                          //           ),
+                          //         ))),
+                          IntegratedNotificationCard(
+                            name: "Aaron Li",
+                            message: "Can you come pick me up?",
+                            latitude: 13.0,
+                            longitude: 12.0,
+                            timestamp: 1707606918818,
+                          )
                         ]),
                       ),
                       ClipRRect(

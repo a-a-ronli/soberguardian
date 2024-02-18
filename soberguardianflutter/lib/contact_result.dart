@@ -25,6 +25,8 @@ class _ContactResultScreenState extends State<ContactResultScreen> {
           .set({
         "message": widget.response,
         "time": DateTime.now().millisecondsSinceEpoch,
+        "latitude": Singleton().locationData?.latitude,
+        "longitude": Singleton().locationData?.longitude,
       }).then((value) {
         setState(() {
           widget.messageSent = true;
