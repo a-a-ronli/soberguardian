@@ -6,32 +6,37 @@ import 'package:camera/camera.dart';
 import 'package:location/location.dart';
 
 class Singleton extends ChangeNotifier {
-    static final Singleton _instance = Singleton._internal();
+  static final Singleton _instance = Singleton._internal();
 
-    factory Singleton() => _instance;
+  factory Singleton() => _instance;
 
-    Singleton._internal();
+  Singleton._internal();
 
-    DataSnapshot? userData;
+  DataSnapshot? userData;
 
-    CameraDescription? selfieCamera;
+  Map<Object?, Object?> userMap = {};
 
-    List<CameraDescription> cameras = [];
+  bool isDrunk = false;
 
-    String currentCategory = "";
+  CameraDescription? selfieCamera;
 
-    StreamController<LocationData> locationStreamController = StreamController<LocationData>.broadcast();
+  List<CameraDescription> cameras = [];
 
-    LocationData? locationData;
-    void updateLocationData(LocationData data) {
-        locationData = data;
+  String currentCategory = "";
 
-        locationStreamController.add(data);
+  StreamController<LocationData> locationStreamController =
+      StreamController<LocationData>.broadcast();
 
-        notifyListeners();
-    }
+  LocationData? locationData;
+  void updateLocationData(LocationData data) {
+    locationData = data;
 
-    void notifyAllListeners() {
-        notifyListeners();
-    }
+    locationStreamController.add(data);
+
+    notifyListeners();
+  }
+
+  void notifyAllListeners() {
+    notifyListeners();
+  }
 }

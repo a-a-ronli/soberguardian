@@ -37,6 +37,13 @@ class AuthChecker extends StatelessWidget {
             // Save to local copy
 
             _singleton.userData = snapshot.data?.snapshot;
+
+            // Convert snapshot data to map
+            _singleton.userMap =
+                snapshot.data?.snapshot.value as Map<Object?, Object?>;
+
+            _singleton.isDrunk = _singleton.userMap["alcohol_detected"] as bool;
+
             _singleton.notifyAllListeners();
             print(_singleton.userData?.value);
           }

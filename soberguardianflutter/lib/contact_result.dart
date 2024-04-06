@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:soberguardian/shared/singleton.dart';
 import 'package:soberguardian/shared/loading.dart';
 import 'package:soberguardian/home.dart';
-import 'package:soberguardian/contact.dart';
+// import 'package:soberguardian/contact.dart';
 // import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:soberguardian/services/auth.dart';
 
+// ignore: must_be_immutable
 class ContactResultScreen extends StatefulWidget {
   final String response;
   bool messageSent = false;
@@ -33,7 +34,7 @@ class _ContactResultScreenState extends State<ContactResultScreen> {
         });
       });
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 
@@ -49,7 +50,7 @@ class _ContactResultScreenState extends State<ContactResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

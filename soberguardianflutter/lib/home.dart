@@ -1,9 +1,9 @@
-import 'dart:convert';
+// import 'dart:convert';
 import 'dart:ui';
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
-// import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:soberguardian/services/auth.dart';
@@ -12,8 +12,8 @@ import 'package:soberguardian/shared/singleton.dart';
 import 'package:location/location.dart';
 import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:soberguardian/size_config.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:http/http.dart' as http;
+// import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:http/http.dart' as http;
 import 'package:soberguardian/integrated_notification.dart';
 import 'emergency.dart';
 import 'loading.dart';
@@ -25,6 +25,7 @@ class HomePageWidget extends StatefulWidget {
   const HomePageWidget({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomePageWidgetState createState() => _HomePageWidgetState();
 }
 
@@ -46,6 +47,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   void initState() {
     super.initState();
     initLocation();
+
+    if (_singleton.userData != null &&
+        _singleton.userMap["alcohol_detected"] == true) {
+      // Set the alcohol_detected field to false in rtdb
+      FirebaseDatabase.instance
+          .ref("users/${Auth().user?.uid}/alcohol_detected")
+          .set(false);
+    }
+
     // _model = createModel(context, () => HomePageModel());
     Timer.periodic(const Duration(seconds: 1), (timer) {
       if (mounted) setState(() {});
@@ -115,7 +125,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   Future<String?> getLocation() async {
     print("Step 1");
-    Location location = new Location();
+    Location location = Location();
 
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -206,7 +216,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(24, 70, 24, 44),
                         child: Stack(children: [
                           Column(
@@ -375,8 +385,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     size: 32,
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 24, 0),
+                                    padding:
+                                        const EdgeInsetsDirectional.fromSTEB(
+                                            0, 0, 24, 0),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment:
@@ -384,7 +395,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
+                                        const Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
                                                   8, 0, 0, 4),
@@ -399,12 +410,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  8, 0, 0, 0),
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(8, 0, 0, 0),
                                           child: Text(
                                             '${(dt.hour > 12) ? dt.hour - 12 : (dt.hour != 0) ? dt.hour : 12}:${(dt.minute) < 10 ? "0${dt.minute}" : dt.minute}',
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontFamily: 'Outfit',
                                               color: Colors.white,
                                               fontSize: 28,
@@ -489,26 +499,27 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => LoadingWidget()));
+                                builder: (context) => const LoadingWidget()));
                           },
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Color(0xff186ff0)),
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color(0xff186ff0)),
                             padding: MaterialStateProperty.all(
-                                EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12)),
+                                const EdgeInsetsDirectional.fromSTEB(
+                                    12, 12, 12, 12)),
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0)),
                             ),
                           ),
-                          child: Column(children: [
+                          child: const Column(children: [
                             Icon(
                               color: Colors.white,
                               Icons.no_drinks_sharp,
                               size: 44,
                             ),
-                            Container(
+                            SizedBox(
                               height: 12,
                               width: 135,
                             ),
@@ -530,26 +541,27 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => NotifyWidget()));
+                                builder: (context) => const NotifyWidget()));
                           },
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Color(0xff186ff0)),
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color(0xff186ff0)),
                             padding: MaterialStateProperty.all(
-                                EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12)),
+                                const EdgeInsetsDirectional.fromSTEB(
+                                    12, 12, 12, 12)),
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0)),
                             ),
                           ),
-                          child: Column(children: [
+                          child: const Column(children: [
                             Icon(
                               color: Colors.white,
                               Icons.contacts,
                               size: 44,
                             ),
-                            Container(
+                            SizedBox(
                               height: 12,
                               width: 12,
                             ),
@@ -580,27 +592,28 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           onPressed: () {
                             Auth().logout().then((value) {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => TitleWidget()));
+                                  builder: (context) => const TitleWidget()));
                             });
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 255, 7, 7)),
+                                const Color.fromARGB(255, 255, 7, 7)),
                             padding: MaterialStateProperty.all(
-                                EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12)),
+                                const EdgeInsetsDirectional.fromSTEB(
+                                    12, 12, 12, 12)),
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0)),
                             ),
                           ),
-                          child: Column(children: [
+                          child: const Column(children: [
                             Icon(
                               color: Colors.white,
                               Icons.logout,
                               size: 44,
                             ),
-                            Container(
+                            SizedBox(
                               height: 12,
                               width: 135,
                             ),
@@ -632,22 +645,23 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 255, 7, 7)),
+                                const Color.fromARGB(255, 255, 7, 7)),
                             padding: MaterialStateProperty.all(
-                                EdgeInsetsDirectional.fromSTEB(12, 12, 12, 12)),
+                                const EdgeInsetsDirectional.fromSTEB(
+                                    12, 12, 12, 12)),
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12.0)),
                             ),
                           ),
-                          child: Column(children: [
+                          child: const Column(children: [
                             Icon(
                               color: Colors.white,
                               Icons.logout,
                               size: 44,
                             ),
-                            Container(
+                            SizedBox(
                               height: 12,
                               width: 135,
                             ),

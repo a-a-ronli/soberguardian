@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:soberguardian/auth_checker.dart';
 import 'package:soberguardian/services/auth.dart';
@@ -57,43 +57,50 @@ class SignUpWidgetState extends State<SignUpWidget> {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Username/Email'),
+                const Text('Username/Email'),
                 TextField(
                   controller: usernameController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Email'
-                  ),
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(), labelText: 'Email'),
                 ),
-                SizedBox(height: 25,),
-                Text('Password'),
+                const SizedBox(
+                  height: 25,
+                ),
+                const Text('Password'),
                 TextField(
                   controller: passwordController,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Password'
-                  ),
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(), labelText: 'Password'),
                   obscureText: true,
                 ),
-                SizedBox(height: 25,),
-                Text('Confirm Password'),
+                const SizedBox(
+                  height: 25,
+                ),
+                const Text('Confirm Password'),
                 TextField(
                   controller: confirmController,
-                  decoration: InputDecoration (
-                    border: OutlineInputBorder(),
-                    labelText: 'Confirm Password'
-                  ),
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Confirm Password'),
                   obscureText: true,
                 ),
-                SizedBox(height: 25,),
+                const SizedBox(
+                  height: 25,
+                ),
                 ElevatedButton(
-                  onPressed: (passwordController.text == confirmController.text) ? () async {
-                    Auth().register(usernameController.text, passwordController.text).then((result) {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => AuthChecker()));
-                    });
-                  } : null, 
-                  child: Text('Create Account')
-                )
+                    onPressed:
+                        (passwordController.text == confirmController.text)
+                            ? () async {
+                                Auth()
+                                    .register(usernameController.text,
+                                        passwordController.text)
+                                    .then((result) {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => AuthChecker()));
+                                });
+                              }
+                            : null,
+                    child: const Text('Create Account'))
               ],
             ),
           ),

@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:location/location.dart';
 import 'package:soberguardian/shared/singleton.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+// import 'package:flutter_map/flutter_map.dart';
+// import 'package:latlong2/latlong.dart';
 
 //import 'notification_model.dart';
 //export 'notification_model.dart';
@@ -14,6 +14,7 @@ class NotificationWidget extends StatefulWidget {
   const NotificationWidget({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _NotificationWidgetState createState() => _NotificationWidgetState();
 }
 
@@ -21,16 +22,20 @@ class _NotificationWidgetState extends State<NotificationWidget>
     with TickerProviderStateMixin {
   //late NotificationModel _model;
 
-  Location location = new Location();
+  Location location = Location();
 
-  Singleton _singleton = Singleton();
+  final Singleton _singleton = Singleton();
 
   late bool _serviceEnabled;
   late PermissionStatus _permissionGranted;
-  late LocationData _locationData;
+  // late LocationData _locationData;
 
   String? dropdownValue = "Family";
-  var items = ["Family", "Medical", "Friends"]; // <-- replace with singleton userdata's categories
+  var items = [
+    "Family",
+    "Medical",
+    "Friends"
+  ]; // <-- replace with singleton userdata's categories
 
   Future<void> _shareLocation() async {
     print("Checking permissions");
@@ -74,7 +79,8 @@ class _NotificationWidgetState extends State<NotificationWidget>
 
   Future<void> _dialogBuilder(BuildContext context) {
     items.clear();
-    Map<Object?, Object?> contacts = _singleton.userData?.child("contacts").value as Map<Object?, Object?>;
+    Map<Object?, Object?> contacts =
+        _singleton.userData?.child("contacts").value as Map<Object?, Object?>;
     contacts.forEach((key, value) => items.add(key.toString()));
     dropdownValue = items.first;
     List<List<String>> entries = [];
@@ -83,7 +89,9 @@ class _NotificationWidgetState extends State<NotificationWidget>
       entries.add([key.toString(), value.toString()]);
     });
 
-    return showDialog<void>(context: context, builder: (BuildContext context) {
+    return showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
           return AlertDialog(
             title: const Text("Contacts"),
             content: Row(
@@ -105,42 +113,45 @@ class _NotificationWidgetState extends State<NotificationWidget>
                       width: 125,
                       height: 500,
                       child: ListView(
-                        padding: EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(10.0),
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
-                        children: entries.map((e) => ElevatedButton(onPressed: () {}, child: Text("${e[0]}\n${e[1]}"))).toList(),
+                        children: entries
+                            .map((e) => ElevatedButton(
+                                onPressed: () {},
+                                child: Text("${e[0]}\n${e[1]}")))
+                            .toList(),
                       ),
-                    ), 
+                    ),
                     DropdownButton<String>(
-                      value: dropdownValue,
-                      items: items.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(), 
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue;
-                        });
-                      })
+                        value: dropdownValue,
+                        items:
+                            items.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownValue = newValue;
+                          });
+                        })
                   ],
                 )
               ],
             ),
             actions: [
-              TextButton(onPressed: () {
-                print("Attempting to send location");
-                _shareLocation();
-              }, child: const Text("Send Location"))
+              TextButton(
+                  onPressed: () {
+                    print("Attempting to send location");
+                    _shareLocation();
+                  },
+                  child: const Text("Send Location"))
             ],
           );
-    });
+        });
   }
-
-  
-
-  
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -175,11 +186,11 @@ class _NotificationWidgetState extends State<NotificationWidget>
                   Text(
                     'Your Current Location',
                     style: TextStyle(
-                          fontFamily: 'Lexend Deca',
-                          color: Color(0xFF95A1AC),
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                        ),
+                      fontFamily: 'Lexend Deca',
+                      color: Color(0xFF95A1AC),
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ],
               ),
@@ -193,11 +204,11 @@ class _NotificationWidgetState extends State<NotificationWidget>
                   const Text(
                     'N/A',
                     style: TextStyle(
-                          fontFamily: 'Lexend Deca',
-                          color: Color(0xFF090F13),
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontFamily: 'Lexend Deca',
+                      color: Color(0xFF090F13),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   IconButton(
                     icon: const Icon(
@@ -225,7 +236,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
             //       zoom: 10.0,
             //     ),
             //     children: [
-                  
+
             //     ],
             //   ),
             // ),
@@ -255,11 +266,11 @@ class _NotificationWidgetState extends State<NotificationWidget>
                     'Miles Away from Nearest Police Station',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                          fontFamily: 'Lexend Deca',
-                          color: Color(0xFF95A1AC),
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                        ),
+                      fontFamily: 'Lexend Deca',
+                      color: Color(0xFF95A1AC),
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
                   ),
                 ],
               ),
@@ -274,11 +285,11 @@ class _NotificationWidgetState extends State<NotificationWidget>
                     'Confidence Level',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                          fontFamily: 'Lexend Deca',
-                          color: Color(0xFF090F13),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      fontFamily: 'Lexend Deca',
+                      color: Color(0xFF090F13),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -294,12 +305,12 @@ class _NotificationWidgetState extends State<NotificationWidget>
               padding: EdgeInsets.zero,
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 10),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 0, 10),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
+                  const Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -307,24 +318,22 @@ class _NotificationWidgetState extends State<NotificationWidget>
                         padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
                         child: Text(
                           'Confidence',
-                          style:
-                              TextStyle(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0xFF95A1AC),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
+                          style: TextStyle(
+                            fontFamily: 'Lexend Deca',
+                            color: Color(0xFF95A1AC),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                       Text(
                         '70%',
-                        style:
-                            TextStyle(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF090F13),
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        style: TextStyle(
+                          fontFamily: 'Lexend Deca',
+                          color: Color(0xFF090F13),
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
@@ -332,27 +341,29 @@ class _NotificationWidgetState extends State<NotificationWidget>
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
                         child: Text(
                           'People Contacted',
-                          style:
-                              TextStyle(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0xFF95A1AC),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
+                          style: TextStyle(
+                            fontFamily: 'Lexend Deca',
+                            color: Color(0xFF95A1AC),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
-                      TextButton(onPressed: () => _dialogBuilder(context), child: Text('3',
-                        style:
-                            TextStyle(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF090F13),
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),)),
+                      TextButton(
+                          onPressed: () => _dialogBuilder(context),
+                          child: const Text(
+                            '3',
+                            style: TextStyle(
+                              fontFamily: 'Lexend Deca',
+                              color: Color(0xFF090F13),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )),
                       // Text(
                       //   '3',
                       //   style:
@@ -365,7 +376,7 @@ class _NotificationWidgetState extends State<NotificationWidget>
                       // ),
                     ],
                   ),
-                  Column(
+                  const Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -373,24 +384,22 @@ class _NotificationWidgetState extends State<NotificationWidget>
                         padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 8),
                         child: Text(
                           'Status',
-                          style:
-                              TextStyle(
-                                    fontFamily: 'Lexend Deca',
-                                    color: Color(0xFF95A1AC),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
+                          style: TextStyle(
+                            fontFamily: 'Lexend Deca',
+                            color: Color(0xFF95A1AC),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
                       Text(
                         'Drunk',
-                        style:
-                            TextStyle(
-                                  fontFamily: 'Lexend Deca',
-                                  color: Color(0xFF4B39EF),
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        style: TextStyle(
+                          fontFamily: 'Lexend Deca',
+                          color: Color(0xFF4B39EF),
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
@@ -406,7 +415,8 @@ class _NotificationWidgetState extends State<NotificationWidget>
                     Align(
                       alignment: const AlignmentDirectional(0, 0),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
                         child: Container(
                           width: MediaQuery.sizeOf(context).width,
                           height: 150,
@@ -423,11 +433,11 @@ class _NotificationWidgetState extends State<NotificationWidget>
                                 Text(
                                   'Turn Off Google Map Location',
                                   style: TextStyle(
-                                        fontFamily: 'Lexend Deca',
-                                        color: Color(0xFF39D2C0),
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                    fontFamily: 'Lexend Deca',
+                                    color: Color(0xFF39D2C0),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ],
                             ),

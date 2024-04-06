@@ -22,8 +22,11 @@ class _PhotoScreenState extends State<PhotoScreen> {
   void initState() {
     super.initState();
 
-    camController =
-        CameraController(_singleton.cameras[0], ResolutionPreset.max);
+    camController = CameraController(
+        (_singleton.selfieCamera != null)
+            ? _singleton.selfieCamera!
+            : _singleton.cameras[0],
+        ResolutionPreset.max);
     camController.initialize().then((_) {
       if (!mounted) {
         return;
@@ -58,7 +61,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
     try {
       final XFile file = await camController.takePicture();
       return file;
-    } on CameraException catch (e) {
+    } on CameraException {
       return null;
     }
   }
@@ -128,7 +131,7 @@ class _PhotoScreenState extends State<PhotoScreen> {
                         child: ElevatedButton(
                             onPressed: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => BreathScreen()));
+                                  builder: (context) => const BreathScreen()));
                             },
                             child: const Text("Confirm")))
                   ],

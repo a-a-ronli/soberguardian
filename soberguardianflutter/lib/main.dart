@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:soberguardian/auth_checker.dart';
 import 'package:camera/camera.dart';
 import 'package:soberguardian/shared/singleton.dart';
-import 'package:soberguardian/map_test.dart';
+// import 'package:soberguardian/map_test.dart';
 import 'package:soberguardian/firebase_options.dart';
-import 'package:latlong2/latlong.dart';
+// import 'package:latlong2/latlong.dart';
 // import 'home.dart';
 import 'login.dart';
 //import 'package:google_fonts/google_fonts.dart';
@@ -55,6 +55,7 @@ class TitleWidget extends StatefulWidget {
   const TitleWidget({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _TitleWidgetState createState() => _TitleWidgetState();
 }
 
@@ -118,10 +119,10 @@ class _TitleWidgetState extends State<TitleWidget> {
         persistentFooterButtons: [
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => LoginWidget()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const LoginWidget()));
             },
-            child: Icon(Icons.home),
+            child: const Icon(Icons.home),
           ),
         ],
       ),

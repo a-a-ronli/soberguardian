@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:soberguardian/sober.dart';
+// import 'package:soberguardian/sober.dart';
 import 'package:soberguardian/test_photo.dart';
 // import 'package:camera/camera.dart';
-import 'drunk.dart';
+// import 'drunk.dart';
 
 //import 'loading_model.dart';
 //export 'loading_model.dart';
@@ -73,11 +73,11 @@ class _LoadingWidgetState extends State<LoadingWidget>
               child: Text(
                 'Loading Sober Guardian...',
                 style: TextStyle(
-                      fontFamily: 'Lexend Deca',
-                      color: Colors.white,
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontFamily: 'Lexend Deca',
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             LinearPercentIndicator(
@@ -90,9 +90,9 @@ class _LoadingWidgetState extends State<LoadingWidget>
               center: const Text(
                 '50%',
                 style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Color(0xFF5C4033),
-                    ),
+                  fontFamily: 'Poppins',
+                  color: Color(0xFF5C4033),
+                ),
               ),
               padding: EdgeInsets.zero,
             ),
@@ -109,10 +109,11 @@ class _LoadingWidgetState extends State<LoadingWidget>
             //   child: Text('Drunk'),
             // ),
             ElevatedButton(
-              onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => PhotoScreen()));
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const PhotoScreen()));
               },
-              child: Text('Simulate Connection'),
+              child: const Text('Simulate Connection'),
             ),
           ],
         ),

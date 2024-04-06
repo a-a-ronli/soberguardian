@@ -1,0 +1,2 @@
+0 Drunk
+1 Sober
