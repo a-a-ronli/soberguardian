@@ -24,7 +24,7 @@ class ResultScreen extends StatelessWidget {
     return Scaffold(
         body: SizedBox(
       width: MediaQuery.of(context).size.width,
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text("Processing results..."),
@@ -40,20 +40,20 @@ class ResultScreen extends StatelessWidget {
           //           (route) => false);
           //     },
           //     child: const Text("Cancel")),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     Navigator.of(context)
-          //         .push(MaterialPageRoute(builder: (context) => SoberWidget()));
-          //   },
-          //   child: const Text('Sober'),
-          // ),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     Navigator.of(context)
-          //         .push(MaterialPageRoute(builder: (context) => DrunkWidget()));
-          //   },
-          //   child: const Text('Drunk'),
-          // ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => SoberWidget()));
+            },
+            child: const Text('Sober'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => DrunkWidget()));
+            },
+            child: const Text('Drunk'),
+          ),
         ],
       ),
     ));

@@ -16,6 +16,10 @@ class Singleton extends ChangeNotifier {
 
   Map<Object?, Object?> userMap = {};
 
+  Map<String, String> uidToName = {};
+
+  String aiServerUrl = "";
+
   bool isDrunk = false;
 
   CameraDescription? selfieCamera;

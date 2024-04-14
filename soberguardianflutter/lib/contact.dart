@@ -35,6 +35,7 @@ class _ContactsPageState extends State<ContactsPage> {
     // print("TEST: contacts/${_singleton.currentCategory}");
     // print(_singleton.userData?.child("contacts").child(_singleton.currentCategory).value as List<dynamic>);
     List<dynamic> contacts = [];
+    List<Widget> contactCards = [];
     if (_singleton.userData
             ?.child("contacts")
             .child(_singleton.currentCategory)
@@ -45,6 +46,23 @@ class _ContactsPageState extends State<ContactsPage> {
           .child(_singleton.currentCategory)
           .value as List<dynamic>;
     }
+    contactCards = contacts
+        .map((contact) => Padding(
+              padding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+              child: ContactCard(
+                categoryColor: widget.categoryColor,
+                name: contact["name"],
+                number: contact["number"].toString(),
+                onCardTap: () {
+                  setState(() {
+                    name = contact["name"];
+                    number = contact["number"].toString();
+                  });
+                },
+              ),
+            ))
+        .toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.categoryName),
@@ -61,23 +79,27 @@ class _ContactsPageState extends State<ContactsPage> {
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
                         children: [
-                          Text(name, style: TextStyle(fontSize: 16)),
-                          Text(number, style: TextStyle(fontSize: 16)),
+                          Text(name,
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.white)),
+                          Text(number,
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.white)),
                           ElevatedButton(
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => ContactResultScreen(
                                         response: "Send Location")));
                               },
-                              child: Text("Send Location",
-                                  style: TextStyle(color: Colors.black)),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor:
-                                      Color.fromARGB(255, 243, 214, 117))),
+                                      const Color.fromARGB(255, 243, 214, 117)),
+                              child: const Text("Send Location",
+                                  style: TextStyle(color: Colors.black))),
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.25,
                             child: ListView(
-                              padding: EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.all(10.0),
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               children: [
@@ -90,7 +112,8 @@ class _ContactsPageState extends State<ContactsPage> {
                                     },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.blue),
-                                    child: Text("Can you come pick me up.",
+                                    child: const Text(
+                                        "Can you come pick me up.",
                                         style: TextStyle(color: Colors.white))),
                                 ElevatedButton(
                                     onPressed: () {
@@ -101,7 +124,7 @@ class _ContactsPageState extends State<ContactsPage> {
                                     },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.red),
-                                    child: Text(
+                                    child: const Text(
                                         "I'm currently drunk, can you get help?",
                                         style: TextStyle(color: Colors.white))),
                                 ElevatedButton(
@@ -113,7 +136,8 @@ class _ContactsPageState extends State<ContactsPage> {
                                     },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.green),
-                                    child: Text("Someone is driving me home.",
+                                    child: const Text(
+                                        "Someone is driving me home.",
                                         style: TextStyle(color: Colors.white))),
                                 ElevatedButton(
                                     onPressed: () {
@@ -124,7 +148,7 @@ class _ContactsPageState extends State<ContactsPage> {
                                     },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.purple),
-                                    child: Text(
+                                    child: const Text(
                                         "I'm staying somewhere for the night.",
                                         style: TextStyle(color: Colors.white))),
                                 ElevatedButton(
@@ -136,7 +160,8 @@ class _ContactsPageState extends State<ContactsPage> {
                                     },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white),
-                                    child: Text("Can I stay by your house?.",
+                                    child: const Text(
+                                        "Can I stay by your house?.",
                                         style: TextStyle(color: Colors.black))),
                               ],
                             ),
@@ -152,16 +177,25 @@ class _ContactsPageState extends State<ContactsPage> {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => AddContact()));
                     },
-                    child: Text("Add Contact"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
-                    )),
+                    ),
+                    child: const Text("Add Contact",
+                        style: TextStyle(color: Colors.white))),
                 ElevatedButton(
                     onPressed: () {
                       print("DELETING CONTACT");
                       List<dynamic> update = [];
-                      for (int i = 0; i < contacts.length; i++) {
-                        if (contacts[i]["number"] != number) {
+                      // for (int i = 0; i < contacts.length; i++) {
+                      //   if (contacts[i]["number"] != number) {
+                      //     update.add(contacts[i]);
+                      //   }
+                      // }
+
+                      for (int i = 0; i < contactCards.length; i++) {
+                        if (((contactCards[i] as Padding).child as ContactCard)
+                                .selected ==
+                            false) {
                           update.add(contacts[i]);
                         }
                       }
@@ -174,10 +208,11 @@ class _ContactsPageState extends State<ContactsPage> {
                         setState(() {});
                       });
                     },
-                    child: Text("Delete Contact"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
-                    )),
+                    ),
+                    child: const Text("Delete Contact",
+                        style: TextStyle(color: Colors.white))),
               ],
             ),
             Expanded(
@@ -185,44 +220,7 @@ class _ContactsPageState extends State<ContactsPage> {
                   padding: EdgeInsets.zero,
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
-                  children: contacts
-                      .map((contact) => ContactCard(
-                            categoryColor: widget.categoryColor,
-                            name: contact["name"],
-                            number: contact["number"].toString(),
-                            onCardTap: () {
-                              setState(() {
-                                name = contact["name"];
-                                number = contact["number"].toString();
-                              });
-                            },
-                          ))
-                      .toList()
-                  // children: [
-                  //     ContactCard(
-                  //         categoryColor: widget.categoryColor,
-                  //         name: "John Appleseed",
-                  //         number: "123-456-7890",
-                  //         onCardTap: () {
-                  //             setState(() {
-                  //                 name = "John Appleseed";
-                  //                 number = "123-456-7890";
-                  //             });
-                  //         },
-                  //     ),
-                  //     ContactCard(
-                  //         categoryColor: widget.categoryColor,
-                  //         name: "Jane Doe",
-                  //         number: "123-456-7890",
-                  //         onCardTap: () {
-                  //             setState(() {
-                  //                 name = "Jane Doe";
-                  //                 number = "123-456-7890";
-                  //             });
-                  //         },
-                  //     ),
-                  // ],
-                  ),
+                  children: contactCards),
             )
           ],
         ),
@@ -231,35 +229,52 @@ class _ContactsPageState extends State<ContactsPage> {
   }
 }
 
-class ContactCard extends StatelessWidget {
+class ContactCard extends StatefulWidget {
   final Color? categoryColor;
   final String name;
   final String number;
   final Function onCardTap;
-  const ContactCard(
+  late bool selected;
+
+  ContactCard(
       {super.key,
       required this.categoryColor,
       required this.name,
       required this.number,
-      required this.onCardTap});
+      required this.onCardTap,
+      this.selected = true});
 
+  @override
+  State<ContactCard> createState() => _ContactCardState();
+}
+
+class _ContactCardState extends State<ContactCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onCardTap(),
+      onTap: () {
+        widget.selected = !widget.selected;
+        print(widget.selected);
+        widget.onCardTap();
+      },
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height * 0.1,
         child: Card(
-          color: categoryColor,
+          color: widget.selected ? widget.categoryColor : Colors.grey,
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            (widget.selected)
+                ? const Icon(Icons.check, color: Colors.green)
+                : Container(),
             SizedBox(
-              width: MediaQuery.of(context).size.width * 0.45,
+              width: MediaQuery.of(context).size.width * 0.35,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(name, style: TextStyle(fontSize: 20)),
+                  Text(widget.name,
+                      style:
+                          const TextStyle(fontSize: 20, color: Colors.white)),
                 ],
               ),
             ),
@@ -267,7 +282,11 @@ class ContactCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.45,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Text(number, style: TextStyle(fontSize: 20))]),
+                  children: [
+                    Text(widget.number,
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.white))
+                  ]),
             )
           ]),
         ),

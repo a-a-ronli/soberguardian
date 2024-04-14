@@ -14,6 +14,7 @@ import 'package:geocoding/geocoding.dart' as geocoding;
 import 'package:soberguardian/size_config.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:http/http.dart' as http;
+import 'package:soberguardian/services/data.dart';
 import 'package:soberguardian/integrated_notification.dart';
 import 'emergency.dart';
 import 'loading.dart';
@@ -36,6 +37,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   List<Map<Object?, Object?>> tests = [];
   final _singleton = Singleton();
   String? city;
+  Set<String> originalContacts = {};
+  List<Widget> notificationCards = [];
 
   void initLocation() async {
     city = await getLocation();
@@ -68,60 +71,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
     super.dispose();
   }
-
-  // Future<String?> getCity() async {
-  //   Location location = new Location();
-
-  //   bool _serviceEnabled;
-  //   PermissionStatus _permissionGranted;
-  //   LocationData _locationData;
-
-  //   _serviceEnabled = await location.serviceEnabled();
-  //   if (!_serviceEnabled) {
-  //     _serviceEnabled = await location.requestService();
-  //     if (!_serviceEnabled) {
-  //       return null;
-  //     }
-  //   }
-
-  //   _permissionGranted = await location.hasPermission();
-  //   if (_permissionGranted == PermissionStatus.denied) {
-  //     _permissionGranted = await location.requestPermission();
-  //     if (_permissionGranted != PermissionStatus.granted) {
-  //       return null;
-  //     }
-  //   }
-
-  //   _locationData = await location.getLocation();
-
-  //   // TODO: Get the city name via API
-  //   const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';  // Replace with your actual API key
-
-  //   double lat = _locationData.latitude as double;
-  //   double lon = _locationData.longitude as double;
-
-  //   final url =
-  //       'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lon&key=$apiKey';
-
-  //   final response = await http.get(Uri.parse(url));
-
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> data = json.decode(response.body);
-  //     if (data["results"] != null && data["results"].length > 0) {
-  //       for(var result in data["results"]) {
-  //         if (result["types"].contains("locality")) {
-  //           for (var component in result["address_components"]) {
-  //             if (component["types"].contains("locality")) {
-  //               return component["long_name"];
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   return null;
-  // }
 
   Future<String?> getLocation() async {
     print("Step 1");
@@ -168,13 +117,25 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         tests.clear();
         for (final child
             in _singleton.userData!.child("pt").value! as List<dynamic>) {
-          if (child != null) tests.add(child);
+          if (child != null && child is Map) {
+            tests.add(child);
+          }
           // print(child);
         }
       }
     }
 
     var dt = DateTime.now();
+
+    Set<String> contacts = Data().getContactUids();
+
+    if (contacts.length != originalContacts.length) {
+      originalContacts = contacts;
+      print("CONTACTS: $contacts");
+
+      notificationCards = Data().getIntegratedNotifications(contacts);
+      setState(() {});
+    }
 
     return GestureDetector(
       //onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
@@ -216,63 +177,44 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      const Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(24, 70, 24, 44),
+                      Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            24, 70, 24, 44),
                         child: Stack(children: [
-                          Column(
-                            mainAxisSize: MainAxisSize.max,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Align(
-                                alignment: AlignmentDirectional(-1, 0),
-                                child: AutoSizeText(
-                                  '',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.white,
-                                    fontSize: 35,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          // Column(
+                          //   mainAxisSize: MainAxisSize.max,
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     Align(
+                          //       alignment: AlignmentDirectional(-1, 0),
+                          //       child: AutoSizeText(
+                          //         '',
+                          //         style: TextStyle(
+                          //           fontFamily: 'Poppins',
+                          //           color: Colors.white,
+                          //           fontSize: 35,
+                          //           fontWeight: FontWeight.w600,
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+                          SizedBox(
+                            // color: Colors.red,
+                            height: SizeConfig.blockSizeVertical! * 20,
+                            child: ListView(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                children: notificationCards),
                           ),
-                          // semi-transparent notification card
-                          // SizedBox(
-                          //     width: SizeConfig.blockSizeHorizontal! * 90,
-                          //     height: SizeConfig.blockSizeHorizontal! * 20,
-                          //     child: Card(
-                          //         color: const Color.fromARGB(200, 75, 75, 75),
-                          //         child: InkWell(
-                          //           onTap: () {},
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.all(8.0),
-                          //             child: Column(
-                          //               mainAxisAlignment:
-                          //                   MainAxisAlignment.spaceEvenly,
-                          //               crossAxisAlignment:
-                          //                   CrossAxisAlignment.start,
-                          //               children: [
-                          //                 Text(
-                          //                   "Aaron Li",
-                          //                   style: TextStyle(
-                          //                       color: Colors.white,
-                          //                       fontWeight: FontWeight.bold),
-                          //                 ),
-                          //                 Text("Can you come pick me up?",
-                          //                     style: TextStyle(
-                          //                         color: Colors.white)),
-                          //               ],
-                          //             ),
-                          //           ),
-                          //         ))),
-                          IntegratedNotificationCard(
-                            name: "Aaron Li",
-                            message: "Can you come pick me up?",
-                            latitude: 13.0,
-                            longitude: 12.0,
-                            timestamp: 1707606918818,
-                          )
+                          // IntegratedNotificationCard(
+                          //   name: "Aaron Li",
+                          //   message: "Can you come pick me up?",
+                          //   latitude: 13.0,
+                          //   longitude: 12.0,
+                          //   timestamp: 1707606918818,
+                          // )
                         ]),
                       ),
                       ClipRRect(
@@ -630,54 +572,54 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(24, 12, 0, 0),
-                      child: ButtonTheme(
-                        minWidth: 160,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            // Auth().logout().then((value) {
-                            //   Navigator.of(context).push(MaterialPageRoute(
-                            //       builder: (context) => TitleWidget()));
-                            // });
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(255, 255, 7, 7)),
-                            padding: MaterialStateProperty.all(
-                                const EdgeInsetsDirectional.fromSTEB(
-                                    12, 12, 12, 12)),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0)),
-                            ),
-                          ),
-                          child: const Column(children: [
-                            Icon(
-                              color: Colors.white,
-                              Icons.logout,
-                              size: 44,
-                            ),
-                            SizedBox(
-                              height: 12,
-                              width: 135,
-                            ),
-                            Text(
-                              'TEST NOTIFICATION',
-                              style: TextStyle(
-                                fontFamily: 'Outfit',
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ]),
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding:
+                    //       const EdgeInsetsDirectional.fromSTEB(24, 12, 0, 0),
+                    //   child: ButtonTheme(
+                    //     minWidth: 160,
+                    //     height: 100,
+                    //     child: ElevatedButton(
+                    //       onPressed: () {
+                    //         // Auth().logout().then((value) {
+                    //         //   Navigator.of(context).push(MaterialPageRoute(
+                    //         //       builder: (context) => TitleWidget()));
+                    //         // });
+                    //       },
+                    //       style: ButtonStyle(
+                    //         backgroundColor: MaterialStateProperty.all(
+                    //             const Color.fromARGB(255, 255, 7, 7)),
+                    //         padding: MaterialStateProperty.all(
+                    //             const EdgeInsetsDirectional.fromSTEB(
+                    //                 12, 12, 12, 12)),
+                    //         shape: MaterialStateProperty.all<
+                    //             RoundedRectangleBorder>(
+                    //           RoundedRectangleBorder(
+                    //               borderRadius: BorderRadius.circular(12.0)),
+                    //         ),
+                    //       ),
+                    //       child: const Column(children: [
+                    //         Icon(
+                    //           color: Colors.white,
+                    //           Icons.logout,
+                    //           size: 44,
+                    //         ),
+                    //         SizedBox(
+                    //           height: 12,
+                    //           width: 135,
+                    //         ),
+                    //         Text(
+                    //           'TEST NOTIFICATION',
+                    //           style: TextStyle(
+                    //             fontFamily: 'Outfit',
+                    //             color: Colors.white,
+                    //             fontSize: 14,
+                    //             fontWeight: FontWeight.normal,
+                    //           ),
+                    //         ),
+                    //       ]),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

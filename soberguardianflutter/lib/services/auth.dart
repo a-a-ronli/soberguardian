@@ -21,9 +21,6 @@ class Auth {
           '4': '',
           '5': '',
         },
-        'contacts': {
-          'emergency': '911',
-        },
         'alcohol_detected': false,
       }
     });

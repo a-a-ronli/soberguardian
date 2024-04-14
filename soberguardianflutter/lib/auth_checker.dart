@@ -16,45 +16,81 @@ class AuthChecker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return StreamBuilder(
-        stream:
-            FirebaseDatabase.instance.ref("users/${Auth().user?.uid}").onValue,
-        builder:
-            ((BuildContext context, AsyncSnapshot<DatabaseEvent> snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
+    return FutureBuilder(
+      future: FirebaseDatabase.instance.ref("ai_server_url").once(),
+      builder: ((BuildContext context, AsyncSnapshot<DatabaseEvent> snapshot) {
+        if (snapshot.hasError) {
+          return Text(snapshot.error.toString());
+        }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingScreen();
-          }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const LoadingScreen();
+        }
 
-          print("Here is the data: ${snapshot.data?.snapshot}");
-          print("Here is the type: ${snapshot.data?.snapshot.runtimeType}");
-          print("path: ${Auth().user?.uid}");
+        // print("Here is the data: ${snapshot.data?.snapshot}");
+        // print("Here is the type: ${snapshot.data?.snapshot.runtimeType}");
 
-          if (snapshot.data != null) {
-            // Save to local copy
+        if (snapshot.data != null) {
+          // Save to local copy
+          _singleton.aiServerUrl = snapshot.data?.snapshot.value as String;
+          print("Here is the server URL: ${snapshot.data?.snapshot.value}");
+        }
 
-            _singleton.userData = snapshot.data?.snapshot;
+        return StreamBuilder(
+            stream: FirebaseDatabase.instance
+                .ref("users/${Auth().user?.uid}")
+                .onValue,
+            builder:
+                ((BuildContext context, AsyncSnapshot<DatabaseEvent> snapshot) {
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
 
-            // Convert snapshot data to map
-            _singleton.userMap =
-                snapshot.data?.snapshot.value as Map<Object?, Object?>;
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const LoadingScreen();
+              }
 
-            _singleton.isDrunk = _singleton.userMap["alcohol_detected"] as bool;
+              print("Here is the data: ${snapshot.data?.snapshot}");
+              print("Here is the type: ${snapshot.data?.snapshot.runtimeType}");
+              print("path: ${Auth().user?.uid}");
 
-            _singleton.notifyAllListeners();
-            print(_singleton.userData?.value);
-          }
+              if (snapshot.data != null) {
+                // Save to local copy
 
-          User? user = Auth().user;
+                _singleton.userData = snapshot.data?.snapshot;
+                print("Here is the data: ${snapshot.data?.snapshot.value}");
 
-          if (user == null) {
-            return const TitleWidget();
-          } else {
-            return const HomePageWidget();
-          }
-        }));
+                // Convert snapshot data to map
+                if (snapshot.data?.snapshot.value is String == false &&
+                    snapshot.data?.snapshot.value != null) {
+                  _singleton.userMap =
+                      snapshot.data?.snapshot.value as Map<Object?, Object?>;
+                }
+
+                if (_singleton.userMap["alcohol_detected"] != null) {
+                  _singleton.isDrunk =
+                      _singleton.userMap["alcohol_detected"] as bool;
+                }
+
+                _singleton.notifyAllListeners();
+                print(_singleton.userData?.value);
+              }
+
+              User? user = Auth().user;
+
+              if (user == null) {
+                return const TitleWidget();
+              } else {
+                return const HomePageWidget();
+              }
+            }));
+      }),
+    );
   }
 }
+
+            // // get the value of ai_server_url at rtdb root
+            // DatabaseReference ref = FirebaseDatabase.instance.ref("ai_server_url");
+            // ref.once().then((DataSnapshot snapshot) {
+            //   _singleton.aiServerUrl = snapshot.value as String;
+            // });
