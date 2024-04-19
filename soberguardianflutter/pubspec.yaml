@@ -57,6 +57,7 @@ dependencies:
   map_launcher: ^3.1.0
   url_launcher: ^6.2.4
   flutter_launcher_icons: ^0.13.1
+  flutter_blue_plus: ^1.32.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

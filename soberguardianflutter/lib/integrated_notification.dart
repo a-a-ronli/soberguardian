@@ -145,7 +145,7 @@ class NotificationReactionScreen extends StatelessWidget {
                           point: LatLng(latitude, longitude),
                           width: 80,
                           height: 80,
-                          child: Image.asset("assets/images/Android Icon.png"),
+                          child: Image.asset("assets/images/Android_Icon.png"),
                         ),
                       ],
                     )

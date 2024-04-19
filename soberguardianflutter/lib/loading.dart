@@ -71,29 +71,34 @@ class _LoadingWidgetState extends State<LoadingWidget>
             const Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 24, 0, 0),
               child: Text(
-                'Loading Sober Guardian...',
+                'Loading Sober Guardian...\nWARNING: You must have our breathalyzer with you to get loggable results.',
                 style: TextStyle(
                   fontFamily: 'Lexend Deca',
                   color: Colors.white,
-                  fontSize: 28,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             LinearPercentIndicator(
-              percent: 0.5,
+              percent: 1.0,
               width: MediaQuery.sizeOf(context).width,
               lineHeight: 24,
               animation: true,
+              animationDuration: 1500,
+              onAnimationEnd: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const PhotoScreen()));
+              },
               progressColor: const Color(0xFF186FF0),
               backgroundColor: const Color(0xFFF1F4F8),
-              center: const Text(
-                '50%',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  color: Color(0xFF5C4033),
-                ),
-              ),
+              // center: const Text(
+              //   '50%',
+              //   style: TextStyle(
+              //     fontFamily: 'Poppins',
+              //     color: Color(0xFF5C4033),
+              //   ),
+              // ),
               padding: EdgeInsets.zero,
             ),
             // ElevatedButton(
@@ -108,13 +113,13 @@ class _LoadingWidgetState extends State<LoadingWidget>
             //   },
             //   child: Text('Drunk'),
             // ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const PhotoScreen()));
-              },
-              child: const Text('Simulate Connection'),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Navigator.of(context).push(MaterialPageRoute(
+            //         builder: (context) => const PhotoScreen()));
+            //   },
+            //   child: const Text('Simulate Connection'),
+            // ),
           ],
         ),
       ),

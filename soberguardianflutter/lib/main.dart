@@ -5,6 +5,7 @@ import 'package:camera/camera.dart';
 import 'package:soberguardian/shared/singleton.dart';
 // import 'package:soberguardian/map_test.dart';
 import 'package:soberguardian/firebase_options.dart';
+import 'package:provider/provider.dart';
 // import 'package:latlong2/latlong.dart';
 // import 'home.dart';
 import 'login.dart';
@@ -35,7 +36,8 @@ Future<void> main() async {
     print("No camera detected");
   }
 
-  runApp(const SoberGuardianApp());
+  runApp(ChangeNotifierProvider<Singleton>(
+      create: (context) => Singleton(), child: const SoberGuardianApp()));
 }
 
 class SoberGuardianApp extends StatelessWidget {

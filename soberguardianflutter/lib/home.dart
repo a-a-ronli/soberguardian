@@ -6,6 +6,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:soberguardian/services/auth.dart';
 import 'package:soberguardian/main.dart';
 import 'package:soberguardian/shared/singleton.dart';
@@ -16,6 +17,7 @@ import 'package:soberguardian/size_config.dart';
 // import 'package:http/http.dart' as http;
 import 'package:soberguardian/services/data.dart';
 import 'package:soberguardian/integrated_notification.dart';
+import 'package:soberguardian/screens/settings.dart';
 import 'emergency.dart';
 import 'loading.dart';
 
@@ -134,7 +136,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       print("CONTACTS: $contacts");
 
       notificationCards = Data().getIntegratedNotifications(contacts);
-      setState(() {});
+      // setState(() {});
     }
 
     return GestureDetector(
@@ -202,11 +204,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           SizedBox(
                             // color: Colors.red,
                             height: SizeConfig.blockSizeVertical! * 20,
-                            child: ListView(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                children: notificationCards),
+                            child: Consumer(
+                              builder: (context, watch, child) {
+                                // print("Rebuilding...");
+                                return ListView(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    children: notificationCards);
+                              },
+                            ),
                           ),
                           // IntegratedNotificationCard(
                           //   name: "Aaron Li",
@@ -572,54 +579,52 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding:
-                    //       const EdgeInsetsDirectional.fromSTEB(24, 12, 0, 0),
-                    //   child: ButtonTheme(
-                    //     minWidth: 160,
-                    //     height: 100,
-                    //     child: ElevatedButton(
-                    //       onPressed: () {
-                    //         // Auth().logout().then((value) {
-                    //         //   Navigator.of(context).push(MaterialPageRoute(
-                    //         //       builder: (context) => TitleWidget()));
-                    //         // });
-                    //       },
-                    //       style: ButtonStyle(
-                    //         backgroundColor: MaterialStateProperty.all(
-                    //             const Color.fromARGB(255, 255, 7, 7)),
-                    //         padding: MaterialStateProperty.all(
-                    //             const EdgeInsetsDirectional.fromSTEB(
-                    //                 12, 12, 12, 12)),
-                    //         shape: MaterialStateProperty.all<
-                    //             RoundedRectangleBorder>(
-                    //           RoundedRectangleBorder(
-                    //               borderRadius: BorderRadius.circular(12.0)),
-                    //         ),
-                    //       ),
-                    //       child: const Column(children: [
-                    //         Icon(
-                    //           color: Colors.white,
-                    //           Icons.logout,
-                    //           size: 44,
-                    //         ),
-                    //         SizedBox(
-                    //           height: 12,
-                    //           width: 135,
-                    //         ),
-                    //         Text(
-                    //           'TEST NOTIFICATION',
-                    //           style: TextStyle(
-                    //             fontFamily: 'Outfit',
-                    //             color: Colors.white,
-                    //             fontSize: 14,
-                    //             fontWeight: FontWeight.normal,
-                    //           ),
-                    //         ),
-                    //       ]),
-                    //     ),
-                    //   ),
-                    // ),
+                    Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(8, 12, 0, 0),
+                      child: ButtonTheme(
+                        minWidth: 160,
+                        height: 100,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => SettingsScreen()));
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                const Color.fromARGB(255, 93, 93, 93)),
+                            padding: MaterialStateProperty.all(
+                                const EdgeInsetsDirectional.fromSTEB(
+                                    12, 12, 12, 12)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.0)),
+                            ),
+                          ),
+                          child: const Column(children: [
+                            Icon(
+                              color: Colors.white,
+                              Icons.settings,
+                              size: 44,
+                            ),
+                            SizedBox(
+                              height: 12,
+                              width: 135,
+                            ),
+                            Text(
+                              'Settings',
+                              style: TextStyle(
+                                fontFamily: 'Outfit',
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ]),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],

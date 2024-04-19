@@ -31,8 +31,11 @@ class Data {
   List<Widget> getIntegratedNotifications(Set<String> contactUids) {
     List<Widget> notificationWidgets = [];
 
+    Singleton _singleton = Singleton();
+
     // Check if any of the contacts are in danger by going to users/uid/notifications
     for (String uid in contactUids) {
+      print("Getting info for $uid");
       FirebaseDatabase.instance
           .ref("users/$uid/notifications")
           .once()
@@ -42,40 +45,43 @@ class Data {
               (snapshot.snapshot.value as Map<Object?, Object?>)
                   .cast<String, dynamic>();
 
-          for (String key in notifications.keys) {
-            print("NOTIFICATION: $notifications");
+          notificationWidgets.add(IntegratedNotificationCard(
+            name: Singleton().uidToName[uid] as String,
+            latitude: notifications["latitude"] * 1.0,
+            longitude: notifications["longitude"] * 1.0,
+            message: notifications["message"],
+            timestamp: notifications["time"],
+          ));
 
-            notificationWidgets.add(IntegratedNotificationCard(
-              name: Singleton().uidToName[uid] as String,
-              latitude: notifications["latitude"] * 1.0,
-              longitude: notifications["longitude"] * 1.0,
-              message: notifications["message"],
-              timestamp: notifications["time"],
-            ));
+          // print(notifications.keys);
+          // for (String key in notifications.keys) {
+          //   print("NOTIFICATION: $notifications");
 
-            if (notifications["alcohol_detected"] == "danger") {
-              print("DANGER: ${notifications['alcohol_detected']}");
+          //   if (notifications["alcohol_detected"] == "danger") {
+          //     print("DANGER: ${notifications['alcohol_detected']}");
 
-              // Send a notification to the user
-              // FirebaseMessaging.instance.send(
-              //   RemoteMessage(
-              //     data: {
-              //       'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-              //       'id': '1',
-              //       'status': 'done',
-              //     },
-              //     notification: RemoteNotification(
-              //       title: 'Emergency',
-              //       body: 'Your friend is in danger!',
-              //     ),
-              //     to: '/topics/$uid',
-              //   ),
-              // );
-            }
-          }
+          //     // Send a notification to the user
+          //     // FirebaseMessaging.instance.send(
+          //     //   RemoteMessage(
+          //     //     data: {
+          //     //       'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+          //     //       'id': '1',
+          //     //       'status': 'done',
+          //     //     },
+          //     //     notification: RemoteNotification(
+          //     //       title: 'Emergency',
+          //     //       body: 'Your friend is in danger!',
+          //     //     ),
+          //     //     to: '/topics/$uid',
+          //     //   ),
+          //     // );
+          //   }
+          // }
         }
       });
     }
+
+    _singleton.notifyAllListeners();
 
     return notificationWidgets;
   }

@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:provider/provider.dart';
 import 'package:soberguardian/services/auth.dart';
 import 'package:soberguardian/shared/singleton.dart';
 import 'package:soberguardian/size_config.dart';
@@ -59,6 +60,51 @@ class _AddContactState extends State<AddContact> {
     super.dispose();
   }
 
+  List<Widget> getPendingRequests() {
+    List<Widget> pendingRequests = [];
+
+    // alternatively, get it from the singleton's userMap
+    if (_singleton.userMap.containsKey("requests")) {
+      var untypedRequests = _singleton.userMap["requests"];
+
+      print("UNTYPE REQUESTS: $untypedRequests");
+
+      // Check if the data is actually a Map and cast it manually
+      if (untypedRequests is Map) {
+        // Cast each key and value to String, dynamic respectively
+        var requests = <String, dynamic>{};
+        for (var key in untypedRequests.keys) {
+          if (key is String && untypedRequests[key] is Map) {
+            requests[key] = Map<String, dynamic>.from(untypedRequests[key]);
+          }
+        }
+
+        print("REQUESTSSS: $requests");
+
+        for (String key in requests.keys) {
+          if (key == "incoming" && requests[key] is Map) {
+            requests = Map<String, dynamic>.from(requests[key]);
+            for (String key in requests.keys) {
+              var request = requests[key];
+              print("AHA: $request");
+              // Proceed as before, now that we have a safely typed map
+              if (request != null &&
+                  request.containsKey("name") &&
+                  request.containsKey("number")) {
+                pendingRequests.add(PendingRequest(
+                    name: request["name"] as String,
+                    number: request["number"] as String,
+                    uid: key));
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return pendingRequests;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -75,7 +121,7 @@ class _AddContactState extends State<AddContact> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Name"),
+                Text("Your Name"),
                 TextField(
                     controller: nameController,
                     onChanged: (value) {
@@ -84,7 +130,7 @@ class _AddContactState extends State<AddContact> {
                       });
                     }),
                 SizedBox(height: 25),
-                Text("Number"),
+                Text("Your Number"),
                 TextField(
                     controller: numberController,
                     onChanged: (value) {
@@ -106,21 +152,22 @@ class _AddContactState extends State<AddContact> {
                     onPressed: (nameController.text != "" &&
                             numberController.text != "" &&
                             friendCodeController.text != "")
-                        ? () {
+                        ? () async {
                             // get the uid of the user with the friend code
                             var ref = FirebaseDatabase.instance
                                 .ref("lobbies/${friendCodeController.text}");
-                            ref.once().then((DataSnapshot snapshot) {
-                                  print("UID: ${snapshot.value}");
+                            ref.once().then((DatabaseEvent event) {
+                              var snapshot = event.snapshot;
+                              print("UID: ${snapshot.value}");
 
-                                  // write the request info to rtdb
-                                  ref = FirebaseDatabase.instance.ref(
-                                      "users/${snapshot.value}/requests/incoming/${Auth().user?.uid}");
-                                  ref.update({
-                                    "name": nameController.text,
-                                    "number": numberController.text
-                                  });
-                                } as FutureOr Function(DatabaseEvent value));
+                              // write the request info to rtdb
+                              ref = FirebaseDatabase.instance.ref(
+                                  "users/${snapshot.value}/requests/incoming/${Auth().user?.uid}");
+                              ref.update({
+                                "name": nameController.text,
+                                "number": numberController.text
+                              });
+                            });
                           }
                         : null,
                     child: const Text("Send Request")),
@@ -175,117 +222,19 @@ class _AddContactState extends State<AddContact> {
                 // List of pending requests
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.75,
-                  child: ListView(
-                    padding: const EdgeInsets.all(10.0),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      Card(
-                          color: Colors.black,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text(
-                                  "John Doe - 123-456-7890",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20,
-                                      color: Colors.white),
-                                ),
-                                SizedBox(height: 8),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.green),
-                                        onPressed: () {
-                                          // Accept
-
-                                          // Add to contacts
-
-                                          // Remove from pending
-                                        },
-                                        child: Text("Accept",
-                                            style: TextStyle(
-                                                color: Colors.white))),
-                                    ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.red),
-                                        onPressed: () {
-                                          // Decline
-
-                                          // Remove from pending
-                                        },
-                                        child: Text("Decline",
-                                            style:
-                                                TextStyle(color: Colors.white)))
-                                  ],
-                                )
-                              ],
-                            ),
-                          ))
-
-                      // ElevatedButton(
-                      //     onPressed: () {
-                      //       Navigator.of(context).push(MaterialPageRoute(
-                      //           builder: (context) => ContactResultScreen(
-                      //               response:
-                      //                   "Can you come pick me up.")));
-                      //     },
-                      //     style: ElevatedButton.styleFrom(
-                      //         backgroundColor: Colors.blue),
-                      //     child: Text("Can you come pick me up.",
-                      //         style: TextStyle(color: Colors.white))),
-                      // ElevatedButton(
-                      //     onPressed: () {
-                      //       Navigator.of(context).push(MaterialPageRoute(
-                      //           builder: (context) => ContactResultScreen(
-                      //               response:
-                      //                   "I'm currently drunk, can you get help?")));
-                      //     },
-                      //     style: ElevatedButton.styleFrom(
-                      //         backgroundColor: Colors.red),
-                      //     child: Text(
-                      //         "I'm currently drunk, can you get help?",
-                      //         style: TextStyle(color: Colors.white))),
-                      // ElevatedButton(
-                      //     onPressed: () {
-                      //       Navigator.of(context).push(MaterialPageRoute(
-                      //           builder: (context) => ContactResultScreen(
-                      //               response:
-                      //                   "Someone is driving me home")));
-                      //     },
-                      //     style: ElevatedButton.styleFrom(
-                      //         backgroundColor: Colors.green),
-                      //     child: Text("Someone is driving me home.",
-                      //         style: TextStyle(color: Colors.white))),
-                      // ElevatedButton(
-                      //     onPressed: () {
-                      //       Navigator.of(context).push(MaterialPageRoute(
-                      //           builder: (context) => ContactResultScreen(
-                      //               response:
-                      //                   "I'm staying somewhere for the night.")));
-                      //     },
-                      //     style: ElevatedButton.styleFrom(
-                      //         backgroundColor: Colors.purple),
-                      //     child: Text(
-                      //         "I'm staying somewhere for the night.",
-                      //         style: TextStyle(color: Colors.white))),
-                      // ElevatedButton(
-                      //     onPressed: () {
-                      //       Navigator.of(context).push(MaterialPageRoute(
-                      //           builder: (context) => ContactResultScreen(
-                      //               response:
-                      //                   "Can I stay by your house?.")));
-                      //     },
-                      //     style: ElevatedButton.styleFrom(
-                      //         backgroundColor: Colors.white),
-                      //     child: Text("Can I stay by your house?.",
-                      //         style: TextStyle(color: Colors.black))),
-                    ],
+                  child: Consumer<Singleton>(
+                    builder: (context, singleton, snapshot) {
+                      var requests = getPendingRequests();
+                      return ListView.builder(
+                        padding: const EdgeInsets.all(10.0),
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: requests.length,
+                        itemBuilder: (context, index) {
+                          return requests[index];
+                        },
+                      );
+                    },
                   ),
                 ),
               ],
@@ -298,7 +247,9 @@ class _AddContactState extends State<AddContact> {
 class PendingRequest extends StatelessWidget {
   final String name;
   final String number;
-  PendingRequest({super.key, required this.name, required this.number});
+  final String uid;
+  PendingRequest(
+      {super.key, required this.name, required this.number, required this.uid});
 
   final Singleton _singleton = Singleton();
 
@@ -344,9 +295,18 @@ class PendingRequest extends StatelessWidget {
                               .child(_singleton.currentCategory)
                               .value as List<dynamic>);
                         }
-                        contacts.add({"name": name, "number": number});
+                        contacts
+                            .add({"name": name, "number": number, "uid": uid});
                         ref.set(contacts);
-                        Navigator.pop(context);
+
+                        // Delete the request from the users incoming requests and delete self from the other user's outgoing requests
+                        var ref1 = FirebaseDatabase.instance.ref(
+                            "users/${Auth().user?.uid}/requests/incoming/$uid");
+                        ref1.remove();
+
+                        var ref2 = FirebaseDatabase.instance.ref(
+                            "users/$uid/requests/outgoing/${Auth().user?.uid}");
+                        ref2.remove();
                       },
                       child: Text("Accept",
                           style: TextStyle(color: Colors.white))),
@@ -354,7 +314,14 @@ class PendingRequest extends StatelessWidget {
                       style:
                           ElevatedButton.styleFrom(backgroundColor: Colors.red),
                       onPressed: () {
-                        // Decline
+                        // Delete the request from the users incoming requests and delete self from the other user's outgoing requests
+                        var ref = FirebaseDatabase.instance.ref(
+                            "users/${Auth().user?.uid}/requests/incoming/$uid");
+                        ref.remove();
+
+                        ref = FirebaseDatabase.instance.ref(
+                            "users/$uid/requests/outgoing/${Auth().user?.uid}");
+                        ref.remove();
                       },
                       child: Text("Decline",
                           style: TextStyle(color: Colors.white)))

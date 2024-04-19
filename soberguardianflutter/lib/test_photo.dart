@@ -69,7 +69,9 @@ class _PhotoScreenState extends State<PhotoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: (!photoTaken)

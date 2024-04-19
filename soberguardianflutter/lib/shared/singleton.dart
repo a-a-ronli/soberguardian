@@ -28,6 +28,8 @@ class Singleton extends ChangeNotifier {
 
   String currentCategory = "";
 
+  bool deviceConnected = false;
+
   StreamController<LocationData> locationStreamController =
       StreamController<LocationData>.broadcast();
 
@@ -41,6 +43,8 @@ class Singleton extends ChangeNotifier {
   }
 
   void notifyAllListeners() {
-    notifyListeners();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
   }
 }
