@@ -1,14 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:soberguardian/auth_checker.dart';
+// import 'package:soberguardian/auth_checker.dart';
 import 'package:camera/camera.dart';
 import 'package:soberguardian/shared/singleton.dart';
 // import 'package:soberguardian/map_test.dart';
+import 'package:soberguardian/routes.dart';
 import 'package:soberguardian/firebase_options.dart';
 import 'package:provider/provider.dart';
 // import 'package:latlong2/latlong.dart';
 // import 'home.dart';
-import 'login.dart';
+import 'screens/login.dart';
 //import 'package:google_fonts/google_fonts.dart';
 // import 'package:provider/provider.dart';
 
@@ -45,11 +46,10 @@ class SoberGuardianApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: AuthChecker(),
-      // home: MapScreen(center: LatLng(50.0, -0.09),)
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, routes: routes
+        // home: AuthChecker(),
+        // home: MapScreen(center: LatLng(50.0, -0.09),)
+        );
   }
 }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:soberguardian/home.dart';
-
+import 'package:soberguardian/screens/home.dart';
 
 //import 'sober_model.dart';
 //export 'sober_model.dart';
@@ -41,7 +40,11 @@ class _SoberWidgetState extends State<SoberWidget> {
           icon: Icon(Icons.arrow_back), // Change the Icon as per your need
           onPressed: () {
             // Implement your custom behavior here
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (BuildContext context) => HomePageWidget()), (route) => false);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HomePageWidget()),
+                (route) => false);
           },
         ),
       ),
@@ -62,7 +65,7 @@ class _SoberWidgetState extends State<SoberWidget> {
                       maxWidth: 700,
                     ),
                     decoration: BoxDecoration(
-                      color:Colors.lightGreen,
+                      color: Colors.lightGreen,
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: Image.asset(
@@ -86,10 +89,10 @@ class _SoberWidgetState extends State<SoberWidget> {
                           const Text(
                             'You are sober!',
                             style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                ),
+                              fontFamily: 'Poppins',
+                              color: Colors.white,
+                              fontSize: 22,
+                            ),
                           ),
                           Align(
                             alignment: const AlignmentDirectional(0, 0.05),
@@ -103,10 +106,10 @@ class _SoberWidgetState extends State<SoberWidget> {
                               center: const Text(
                                 'Confidence',
                                 textAlign: TextAlign.center,
-                                style:TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: Color(0xFF186FF0),
-                                    ),
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  color: Color(0xFF186FF0),
+                                ),
                               ),
                             ),
                           ),

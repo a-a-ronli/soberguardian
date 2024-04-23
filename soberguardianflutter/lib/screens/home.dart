@@ -19,7 +19,7 @@ import 'package:soberguardian/services/data.dart';
 import 'package:soberguardian/integrated_notification.dart';
 import 'package:soberguardian/screens/settings.dart';
 import 'emergency.dart';
-import 'loading.dart';
+import '../loading.dart';
 
 //import 'home_page_model.dart';
 //export 'home_page_model.dart';
@@ -207,11 +207,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             child: Consumer(
                               builder: (context, watch, child) {
                                 // print("Rebuilding...");
-                                return ListView(
+                                return ListView.builder(
                                     padding: EdgeInsets.zero,
                                     shrinkWrap: true,
                                     scrollDirection: Axis.vertical,
-                                    children: notificationCards);
+                                    itemCount: notificationCards.length,
+                                    itemBuilder: (context, index) {
+                                      return notificationCards[index];
+                                    });
                               },
                             ),
                           ),

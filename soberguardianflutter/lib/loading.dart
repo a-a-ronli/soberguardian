@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 // import 'package:soberguardian/sober.dart';
-import 'package:soberguardian/test_photo.dart';
+import 'package:soberguardian/screens/test_photo.dart';
 // import 'package:camera/camera.dart';
 // import 'drunk.dart';
 

@@ -3,7 +3,7 @@ import 'package:soberguardian/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:soberguardian/main.dart';
-import 'package:soberguardian/home.dart';
+import 'package:soberguardian/screens/home.dart';
 import 'package:soberguardian/shared/singleton.dart';
 import 'package:soberguardian/shared/loading.dart';
 import 'package:soberguardian/size_config.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:soberguardian/test_result.dart';
+import 'package:soberguardian/screens/test_result.dart';
 
 class BreathScreen extends StatefulWidget {
   const BreathScreen({super.key});

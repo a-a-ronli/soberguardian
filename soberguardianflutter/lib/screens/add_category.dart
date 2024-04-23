@@ -3,8 +3,8 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:soberguardian/services/auth.dart';
 import 'package:soberguardian/shared/singleton.dart';
 
-import 'package:soberguardian/icons.dart';
-import 'package:soberguardian/colors.dart';
+import 'package:soberguardian/shared/icons.dart';
+import 'package:soberguardian/shared/colors.dart';
 import 'package:soberguardian/shared/colors_reference.dart';
 
 class AddCategoryScreen extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:soberguardian/shared/singleton.dart';
 import 'package:soberguardian/shared/colors_reference.dart';
-import 'package:soberguardian/add_category.dart';
-import 'package:soberguardian/contact.dart';
+import 'package:soberguardian/screens/add_category.dart';
+import 'package:soberguardian/screens/contact.dart';
 
 //import 'notify_model.dart';
 //export 'notify_model.dart';

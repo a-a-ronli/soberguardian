@@ -105,7 +105,17 @@ class NotificationReactionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+            // actions: [
+            //   ElevatedButton(
+            //       style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            //       onPressed: () {
+            //         Navigator.pop(context);
+            //       },
+            //       child: const Text("Dismiss",
+            //           style: TextStyle(color: Colors.white)))
+            // ],
+            ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

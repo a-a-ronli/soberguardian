@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:soberguardian/sober.dart';
-import 'package:soberguardian/drunk.dart';
+import 'package:soberguardian/screens/sober.dart';
+import 'package:soberguardian/screens/drunk.dart';
 // import 'package:soberguardian/shared/loading.dart';
 import 'package:soberguardian/shared/singleton.dart';
 

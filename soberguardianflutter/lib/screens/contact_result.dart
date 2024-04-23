@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:soberguardian/shared/singleton.dart';
 import 'package:soberguardian/shared/loading.dart';
-import 'package:soberguardian/home.dart';
+import 'package:soberguardian/screens/home.dart';
 // import 'package:soberguardian/contact.dart';
 // import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_database/firebase_database.dart';

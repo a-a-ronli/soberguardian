@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:soberguardian/add_contact.dart';
+import 'package:soberguardian/screens/add_contact.dart';
 import 'package:soberguardian/shared/singleton.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:soberguardian/services/auth.dart';
-import 'package:soberguardian/contact_result.dart';
+import 'package:soberguardian/screens/contact_result.dart';
 
 class ContactsPage extends StatefulWidget {
   final String categoryName;
