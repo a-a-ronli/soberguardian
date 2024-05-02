@@ -180,8 +180,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            24, 70, 24, 44),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(24, 35, 24, 0),
                         child: Stack(children: [
                           // Column(
                           //   mainAxisSize: MainAxisSize.max,
@@ -235,6 +235,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           ),
                           child: Container(
                             width: double.infinity,
+                            height: SizeConfig.blockSizeVertical! * 15,
                             decoration: const BoxDecoration(
                               color: Color(0x87000000),
                               boxShadow: [
@@ -275,10 +276,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                         Padding(
                                           padding: const EdgeInsetsDirectional
                                               .fromSTEB(8, 0, 0, 0),
-                                          child: Text(
+                                          child: AutoSizeText(
                                             (city != null)
                                                 ? city!
                                                 : "Los Angeles",
+                                            maxLines: 1,
                                             style: const TextStyle(
                                               fontFamily: 'Outfit',
                                               color: Colors.white,
@@ -388,249 +390,252 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 ),
               ),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 12, 0, 0),
-                  child: Text(
-                    'Previous Times Tested',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                      color: Color(0xFF57636C),
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
+            SizedBox(
+              height: SizeConfig.blockSizeVertical! * 50,
+              child: ListView(
+                // mainAxisSize: MainAxisSize.max,
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 12, 0, 0),
+                    child: Text(
+                      'Previous Times Tested',
+                      style: TextStyle(
+                        fontFamily: 'Outfit',
+                        color: Color(0xFF57636C),
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  width: double.infinity,
-                  height: 120,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF1F4F8),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                    child: ListView(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      children:
-                          tests.map((test) => TestEntry(test: test)).toList(),
+                  Container(
+                    width: double.infinity,
+                    height: 120,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFF1F4F8),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        children:
+                            tests.map((test) => TestEntry(test: test)).toList(),
+                      ),
                     ),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 4, 0, 0),
-                  child: Text(
-                    'Features',
-                    style: TextStyle(
-                      fontFamily: 'Outfit',
-                      color: Color(0xFF57636C),
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
+                  const Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 4, 0, 0),
+                    child: Text(
+                      'Features',
+                      style: TextStyle(
+                        fontFamily: 'Outfit',
+                        color: Color(0xFF57636C),
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(24, 12, 0, 0),
-                  child: Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    alignment: WrapAlignment.start,
-                    crossAxisAlignment: WrapCrossAlignment.start,
-                    direction: Axis.horizontal,
-                    runAlignment: WrapAlignment.start,
-                    verticalDirection: VerticalDirection.down,
-                    clipBehavior: Clip.none,
-                    children: [
-                      ButtonTheme(
-                        minWidth: 160,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const LoadingWidget()));
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color(0xff186ff0)),
-                            padding: MaterialStateProperty.all(
-                                const EdgeInsetsDirectional.fromSTEB(
-                                    12, 12, 12, 12)),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0)),
-                            ),
-                          ),
-                          child: const Column(children: [
-                            Icon(
-                              color: Colors.white,
-                              Icons.no_drinks_sharp,
-                              size: 44,
-                            ),
-                            SizedBox(
-                              height: 12,
-                              width: 135,
-                            ),
-                            Text(
-                              'Test',
-                              style: TextStyle(
-                                fontFamily: 'Outfit',
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
+                  Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(24, 12, 0, 0),
+                    child: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      alignment: WrapAlignment.start,
+                      crossAxisAlignment: WrapCrossAlignment.start,
+                      direction: Axis.horizontal,
+                      runAlignment: WrapAlignment.start,
+                      verticalDirection: VerticalDirection.down,
+                      clipBehavior: Clip.none,
+                      children: [
+                        ButtonTheme(
+                          minWidth: 160,
+                          height: 100,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const LoadingWidget()));
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color(0xff186ff0)),
+                              padding: MaterialStateProperty.all(
+                                  const EdgeInsetsDirectional.fromSTEB(
+                                      12, 12, 12, 12)),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0)),
                               ),
                             ),
-                          ]),
+                            child: const Column(children: [
+                              Icon(
+                                color: Colors.white,
+                                Icons.no_drinks_sharp,
+                                size: 44,
+                              ),
+                              SizedBox(
+                                height: 12,
+                                width: 135,
+                              ),
+                              Text(
+                                'Test',
+                                style: TextStyle(
+                                  fontFamily: 'Outfit',
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                        ButtonTheme(
+                          minWidth: 160,
+                          height: 100,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => const NotifyWidget()));
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color(0xff186ff0)),
+                              padding: MaterialStateProperty.all(
+                                  const EdgeInsetsDirectional.fromSTEB(
+                                      12, 12, 12, 12)),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0)),
+                              ),
+                            ),
+                            child: const Column(children: [
+                              Icon(
+                                color: Colors.white,
+                                Icons.contacts,
+                                size: 44,
+                              ),
+                              SizedBox(
+                                height: 12,
+                                width: 12,
+                              ),
+                              Text(
+                                'Contact Emergency',
+                                style: TextStyle(
+                                  fontFamily: 'Outfit',
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(24, 12, 0, 0),
+                        child: ButtonTheme(
+                          minWidth: 160,
+                          height: 100,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Auth().logout().then((value) {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const TitleWidget()));
+                              });
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color.fromARGB(255, 255, 7, 7)),
+                              padding: MaterialStateProperty.all(
+                                  const EdgeInsetsDirectional.fromSTEB(
+                                      12, 12, 12, 12)),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0)),
+                              ),
+                            ),
+                            child: const Column(children: [
+                              Icon(
+                                color: Colors.white,
+                                Icons.logout,
+                                size: 44,
+                              ),
+                              SizedBox(
+                                height: 12,
+                                width: 135,
+                              ),
+                              Text(
+                                'Log Out',
+                                style: TextStyle(
+                                  fontFamily: 'Outfit',
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ]),
+                          ),
                         ),
                       ),
-                      ButtonTheme(
-                        minWidth: 160,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const NotifyWidget()));
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color(0xff186ff0)),
-                            padding: MaterialStateProperty.all(
-                                const EdgeInsetsDirectional.fromSTEB(
-                                    12, 12, 12, 12)),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0)),
-                            ),
-                          ),
-                          child: const Column(children: [
-                            Icon(
-                              color: Colors.white,
-                              Icons.contacts,
-                              size: 44,
-                            ),
-                            SizedBox(
-                              height: 12,
-                              width: 12,
-                            ),
-                            Text(
-                              'Contact Emergency',
-                              style: TextStyle(
-                                fontFamily: 'Outfit',
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(8, 12, 0, 0),
+                        child: ButtonTheme(
+                          minWidth: 160,
+                          height: 100,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => SettingsScreen()));
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color.fromARGB(255, 93, 93, 93)),
+                              padding: MaterialStateProperty.all(
+                                  const EdgeInsetsDirectional.fromSTEB(
+                                      12, 12, 12, 12)),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.0)),
                               ),
                             ),
-                          ]),
+                            child: const Column(children: [
+                              Icon(
+                                color: Colors.white,
+                                Icons.settings,
+                                size: 44,
+                              ),
+                              SizedBox(
+                                height: 12,
+                                width: 135,
+                              ),
+                              Text(
+                                'Settings',
+                                style: TextStyle(
+                                  fontFamily: 'Outfit',
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ]),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(24, 12, 0, 0),
-                      child: ButtonTheme(
-                        minWidth: 160,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Auth().logout().then((value) {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => const TitleWidget()));
-                            });
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(255, 255, 7, 7)),
-                            padding: MaterialStateProperty.all(
-                                const EdgeInsetsDirectional.fromSTEB(
-                                    12, 12, 12, 12)),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0)),
-                            ),
-                          ),
-                          child: const Column(children: [
-                            Icon(
-                              color: Colors.white,
-                              Icons.logout,
-                              size: 44,
-                            ),
-                            SizedBox(
-                              height: 12,
-                              width: 135,
-                            ),
-                            Text(
-                              'Log Out',
-                              style: TextStyle(
-                                fontFamily: 'Outfit',
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ]),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(8, 12, 0, 0),
-                      child: ButtonTheme(
-                        minWidth: 160,
-                        height: 100,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => SettingsScreen()));
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                const Color.fromARGB(255, 93, 93, 93)),
-                            padding: MaterialStateProperty.all(
-                                const EdgeInsetsDirectional.fromSTEB(
-                                    12, 12, 12, 12)),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12.0)),
-                            ),
-                          ),
-                          child: const Column(children: [
-                            Icon(
-                              color: Colors.white,
-                              Icons.settings,
-                              size: 44,
-                            ),
-                            SizedBox(
-                              height: 12,
-                              width: 135,
-                            ),
-                            Text(
-                              'Settings',
-                              style: TextStyle(
-                                fontFamily: 'Outfit',
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ),
-                          ]),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -650,8 +655,8 @@ class TestEntry extends StatelessWidget {
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 8, 8),
       child: Container(
-        width: 160,
-        height: 100,
+        width: SizeConfig.blockSizeHorizontal! * 37,
+        height: SizeConfig.blockSizeVertical! * 10,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: const [
@@ -670,8 +675,9 @@ class TestEntry extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              AutoSizeText(
                 DateFormat('hh:mm a').format(parsedDateTime),
+                maxLines: 1,
                 style: const TextStyle(
                   fontFamily: 'Outfit',
                   color: Color(0xFF14181B),
@@ -679,8 +685,9 @@ class TestEntry extends StatelessWidget {
                   fontWeight: FontWeight.normal,
                 ),
               ),
-              Text(
+              AutoSizeText(
                 'Confidence: ${test["confidence"]}%',
+                maxLines: 1,
                 style: const TextStyle(
                   fontFamily: 'Outfit',
                   color: Color(0xFF57636C),

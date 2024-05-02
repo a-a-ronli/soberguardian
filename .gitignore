@@ -31,3 +31,5 @@ soberguardianflutter/lib/firebase_options.dart
 venv/
 
 device logic/test.json
+
+soberguardianflutter/android/app/key.jks

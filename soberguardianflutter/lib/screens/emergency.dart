@@ -101,6 +101,17 @@ class EmergencyCategory extends StatelessWidget {
 
   Singleton _singleton = Singleton();
 
+  Map<String, Color> nameToIconColor = {
+    "red": Color.fromARGB(255, 0, 0, 0),
+    "yellow": Color.fromARGB(255, 126, 130, 126),
+    "orange": const Color.fromARGB(255, 255, 255, 255),
+    "green": Color.fromARGB(255, 0, 0, 0),
+    "blue": Color.fromARGB(255, 255, 255, 255),
+    "purple": const Color.fromARGB(255, 245, 244, 244),
+    "white": Color.fromARGB(255, 0, 0, 0),
+    "black": const Color.fromARGB(255, 255, 255, 255),
+  };
+
   @override
   Widget build(BuildContext context) {
     print(category);
@@ -126,22 +137,27 @@ class EmergencyCategory extends StatelessWidget {
           ),
         ),
         child: Container(
-          height: 43,
+          // color: Colors.red,
+          // height: 43,
           alignment: const Alignment(0, 0),
-          width: 43,
-          margin: const EdgeInsets.fromLTRB(20, 20, 20, 25),
+          // width: 43,
+          // margin: const EdgeInsets.fromLTRB(20, 20, 20, 25),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(IconData(int.parse('0x${category["icon"]}'),
-                  fontFamily: 'MaterialIcons')),
+              Icon(
+                IconData(int.parse('0x${category["icon"]}'),
+                    fontFamily: 'MaterialIcons'),
+                color: nameToIconColor[category["color"].toString()],
+              ),
               SizedBox(
                 child: Text(
                   category["name"].toString(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Poppins',
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.normal,
+                    color: nameToIconColor[category["color"].toString()],
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
