@@ -33,3 +33,5 @@ venv/
 device logic/test.json
 
 soberguardianflutter/android/app/key.jks
+
+soberguardianflutter/android_old/

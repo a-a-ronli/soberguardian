@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Pair<String, IconData> {
   String first;
-  IconData last;
+  final IconData last;
 
   Pair(this.first, this.last);
 }
