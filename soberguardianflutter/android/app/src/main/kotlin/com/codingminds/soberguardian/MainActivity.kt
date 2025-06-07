@@ -1,4 +1,4 @@
-package com.codingminds.soberguardian
+package com.soberguardian.aaron
 
 import io.flutter.embedding.android.FlutterActivity
 
